@@ -24,10 +24,10 @@ export const LandingNav = ({ onLogin }) => {
         <nav className="hidden flex-1 items-center gap-1 md:flex">
           {LINKS.map(([id, l]) => <a key={id} href={`#${id}`} data-testid={`landing-nav-${id}`} className="rounded-md px-3 py-1.5 text-[13.5px] text-muted-foreground transition-colors hover:text-foreground">{l}</a>)}
         </nav>
-        <div className="ml-auto flex items-center gap-2">
+        <div className="ml-auto flex items-center gap-1.5 sm:gap-2">
           <button onClick={toggleTheme} aria-label="Temayı değiştir" data-testid="landing-theme-toggle" className="grid h-9 w-9 place-items-center rounded-md text-muted-foreground hover:bg-accent hover:text-foreground">{state.theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}</button>
           <button onClick={onLogin} data-testid="landing-login-button" className="hidden h-9 rounded-lg px-3.5 text-sm font-medium hover:bg-accent sm:block">Giriş yap</button>
-          <button onClick={onLogin} data-testid="landing-signup-button" className="h-9 rounded-lg bg-navy px-4 text-sm font-medium text-white transition-colors hover:bg-brand dark:bg-brand">Ücretsiz başla</button>
+          <button onClick={onLogin} data-testid="landing-signup-button" className="h-9 whitespace-nowrap rounded-lg bg-navy px-3 text-sm font-medium text-white transition-colors hover:bg-brand sm:px-4 dark:bg-brand"><span className="sm:hidden">Başla</span><span className="hidden sm:inline">Ücretsiz başla</span></button>
           <button onClick={() => setOpen(!open)} aria-label="Menü" data-testid="landing-mobile-menu" className="grid h-9 w-9 place-items-center rounded-md border md:hidden">{open ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}</button>
         </div>
       </div>
@@ -75,7 +75,7 @@ const ProductPreview = () => {
 };
 
 export const Hero = ({ onLogin }) => (
-  <section className="relative mx-auto grid max-w-[1240px] items-center gap-14 px-5 pb-24 pt-14 sm:px-8 lg:grid-cols-[1.05fr_1fr] lg:pt-20" data-testid="landing-hero">
+  <section className="relative mx-auto grid max-w-[1240px] overflow-x-clip items-center gap-14 px-5 pb-24 pt-14 sm:px-8 lg:grid-cols-[1.05fr_1fr] lg:pt-20" data-testid="landing-hero">
     <div className="fade-up">
       <a href="#seffaflik" className="inline-flex items-center gap-2 rounded-full border bg-card px-3 py-1 text-[12px] text-muted-foreground transition-colors hover:text-foreground"><Sparkles className="h-3.5 w-3.5 text-brand" />Türkiye'deki hekimler için tasarlandı<ArrowRight className="h-3 w-3" /></a>
       <h1 className="mt-6 text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-5xl lg:text-6xl">Klinik sorudan<br />bilimsel kanıta,<br /><span className="text-brand">tek çalışma alanında.</span></h1>

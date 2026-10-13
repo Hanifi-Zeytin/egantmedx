@@ -46,7 +46,7 @@ const PILLARS = [
 
 export const Pillars = () => (
   <section id="ozellikler" className="mx-auto max-w-[1240px] scroll-mt-20 px-5 py-24 sm:px-8" data-testid="landing-features">
-    <div className="max-w-2xl"><div className="eyebrow mb-3">Platform</div><h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl">Hekimin günlük araştırma ihtiyacı için üç temel modül.</h2><p className="mt-4 text-base text-muted-foreground md:text-lg">Sohbet penceresinden fazlası: vakalar, kanıtlar ve ilaç bilgisi birbirine bağlı tek bir çalışma alanında.</p></div>
+    <div className="max-w-2xl"><div className="eyebrow mb-3">Platform</div><h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl">Hekimin günlük araştırma ihtiyacı için dört temel modül.</h2><p className="mt-4 text-base text-muted-foreground md:text-lg">Sohbet penceresinden fazlası: vakalar, kanıtlar ve ilaç bilgisi birbirine bağlı tek bir çalışma alanında.</p></div>
     <div className="mt-12 grid gap-4 lg:grid-cols-12">
       {PILLARS.map((p) => (
         <article key={p.title} className={`group rounded-2xl border bg-card p-6 transition-[border-color,transform] hover:-translate-y-0.5 hover:border-foreground/20 ${p.span}`} data-testid={`feature-${p.eyebrow.slice(0, 2)}`}>

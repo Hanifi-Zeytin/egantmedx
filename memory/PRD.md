@@ -9,20 +9,12 @@ Turkish-language, AI-assisted clinical research, evidence discovery and medicati
 - Theme: both light & dark with toggle
 
 ## Architecture
-React (CRA + craco), Tailwind, shadcn/ui, lucide-react. State: `src/lib/store.js` (Context + localStorage `medassistix-prototype-v1`). Data: `src/data/demo.js` (sample cases, evidence, products, physicians), `src/data/mock.js` (mock assistant). No backend usage.
+React (CRA + craco), Tailwind, shadcn/ui, lucide-react. State: `src/lib/store.js` (Context + localStorage `medassistix-prototype-v1`, `entered` flag gates app). Data: `src/data/demo.js`, `src/data/mock.js`. No backend usage.
 
-## Personas
-Family physicians / GPs / specialists; platform administrators.
-
-## Implemented (2026-06)
-- App shell: collapsible sidebar, workspace switcher (Kişisel / Çankaya ASM Ekibi / Platform Yönetimi), theme toggle, mobile sheet nav, quota meter
-- Ana Sayfa: quick question, 3 primary actions, continue card, recent/drafts/ready, account status, recent meds & evidence searches, empty state
-- Klinik Araştırma: anonymized case form (PII warning, validation), Taslak Kaydet / Araştırmayı Başlat; 68/32 workspace, composer (auto-expand, Enter send, 4 quick actions + İlaç Sorgula), loading/answer/clarification/no-evidence/error states, case panel w/ collapsible details, safety check link, archive
-- Kanıt Ara: search, source/lang/type filters, sample records labeled ÖRNEK, external TR Dizin/Europe PMC live-search links, history
-- İlaçlar: brand/ingredient search, tabs, product detail w/ provenance & “Veri mevcut değil”; İlaç Güvenlik Kontrolü (name-level allergy match, duplicate ingredient, unavailable data)
-- Geçmiş, Paketler (Yakında), Profil (verification states demo), Yönetim (queue approve/reject, accounts, workspaces, logs)
+## Implemented
+- 2026-06: Full app (Ana Sayfa, Klinik Araştırma, Kanıt Ara, İlaçlar + Güvenlik Kontrolü, Geçmiş, Paketler, Profil, Yönetim), workspace switcher, themes
+- 2026-06: Pre-login landing page `/tanitim` (hero w/ rotating product preview, sources strip, 4-module bento, how-it-works, AI-vs-evidence transparency, trust, pricing preview, FAQ, CTA, footer); demo login dialog (Hekim / Yönetici); sidebar logout
 
 ## Backlog
-- P1: Command palette (Ctrl+K), case export/print summary
-- P1: Edit case details inline from workspace
-- P2: Real LLM integration, real auth, backend persistence, real medication/evidence APIs
+- P1: Command palette (Ctrl+K), case export/print summary, inline case editing
+- P2: Real LLM, real auth, backend persistence, real medication/evidence APIs

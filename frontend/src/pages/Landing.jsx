@@ -9,10 +9,10 @@ import { LoginDialog } from "@/components/landing/LoginDialog";
 export default function Landing() {
   const { state } = useStore();
   const [login, setLogin] = useState(false);
-  if (state.entered) return <Navigate to="/" replace />;
+  if (state.entered) return <Navigate to={state.workspace === "admin" ? "/yonetim" : "/"} replace />;
   const open = () => setLogin(true);
   return (
-    <div id="landing-scroll" className="h-full overflow-y-auto scroll-smooth bg-background" data-testid="landing-page">
+    <div id="landing-scroll" className="h-full overflow-y-auto overflow-x-hidden scroll-smooth bg-background" data-testid="landing-page">
       <LandingNav onLogin={open} />
       <Hero onLogin={open} />
       <SourceStrip />
