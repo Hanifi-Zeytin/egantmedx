@@ -1,0 +1,22 @@
+{
+  "summary": "First-iteration frontend-only testing of MedAssistix prototype. Cleared localStorage before testing. Verified navigation testids (nav-home/research/evidence/medications/history/packages/profile), theme toggle (adds .dark on html, persists after reload), sidebar collapse/quota, workspace switcher (personal/clinic/admin → /yonetim shows only nav-admin), dashboard quick question navigates to /arastirma with prefilled complaint, new-research form validation (error-complaint/age/sex), Taslak Kaydet navigation to /gecmis?durum=taslak, Araştırmayı Başlat creates case and shows research-empty-state, PII 11-digit warning (pii-warning) in context input, allergy chip entry. Research workspace tested with proper >1700ms waits: message-clarification (short genel <14 chars), message-error + message-retry-button ('hata'), message-no-evidence (generic long), message-assistant with message-sources (quick-action-tedavi), quota decrement on workspace-quota and sidebar-quota, Shift+Enter newline, composer-drug-lookup-link → /ilaclar, case-archive-button, case-safety-check-button → /ilaclar/guvenlik?vaka=c1. Medications page loads with search; MedicationDetail /ilaclar/p6 shows 'Veri mevcut değil'. Safety check options render as safety-option-p6, run button works. Evidence no-results state works. Profile verification demo buttons present; setting status != Doğrulandı disables composer-input in research workspace (verified disabled=true). Packages page loads. Mobile 390px shows mobile-menu-button and open-case-panel-button; no horizontal overflow. All UI text is Turkish.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": [],
+  "action_items": [],
+  "critical_code_review_comments": [
+    "store.js: resetDemo/emptyDemo use setState({...initial(), theme: state.theme}) — state.theme captured in useMemo deps; works but relies on actions re-memoization each render. Acceptable for a prototype.",
+    "ResearchWorkspace respond() uses setTimeout chain (550/1100/1700ms). Tests must wait >1700ms before asserting assistant messages. Not a bug but worth documenting.",
+    "No backend used; all data stored in localStorage under medassistix-prototype-v1 as specified."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "N/A", "frontend": "100%"},
+  "seed_data_creation": "No seed created; relied on built-in seedCases/seedPhysicians from /app/frontend/src/data/demo.js. Cleared localStorage at test start.",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "When testing message responses in Research workspace, wait at least 2000ms after sending (the 3-step setTimeout chain finishes at 1700ms). Composer textarea becomes disabled during busy state; use `wait_for_selector('[data-testid=\"composer-input\"]:not([disabled])')` between sends. Medication results use data-testid `med-product-{id}` and `med-ingredient-result` (not `med-result-*`). Quota starts at 1 used (queriesUsed=1 in initial state), so FREE_QUOTA 5 shows 4/5 at first load. All flows verified clean. Known seed case ids include c1 (used in dashboard-continue-card)."
+}

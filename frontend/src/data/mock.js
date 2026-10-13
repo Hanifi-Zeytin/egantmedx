@@ -17,7 +17,8 @@ const searchLinks = (topic) => [
   { id: uid(), source: "Europe PMC", label: `Europe PMC'de "${topic}" ile ilgili yayınları ara`, url: europePmc(topic) },
 ];
 
-const shortTopic = (c) => (c?.complaint || "klinik soru").split(/[.,;]/)[0].split(" ").slice(0, 4).join(" ");
+const STOP = /\d|^(son|devam|eden|olan|ve|ile|bir|haftadır|gündür|aydır|yıldır|ayda|günde|haftada|artan)$/i;
+const shortTopic = (c) => (c?.complaint || "klinik soru").split(/[.,;]/)[0].split(/\s+/).filter((w) => !STOP.test(w)).slice(0, 4).join(" ") || "klinik soru";
 
 const BODIES = {
   ayirici: (c) => [
