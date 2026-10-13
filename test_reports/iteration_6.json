@@ -1,0 +1,38 @@
+{
+  "summary": "Visual/style regression pass for MedAssistix Turkish clinical prototype after switch to Fraunces (headings) + Nunito Sans (body), warmer palette, larger radius, pill CTAs, softer transitions. Verified landing, signup, dashboard, research workspace /arastirma/c1, evidence /kanit (with search 'öksürük'), /ilaclar, /ilaclar/p6, /gecmis, /paketler, /profil, admin /yonetim across light + dark themes at 1440 / 1280 / 768 / 390. Verified font loading, Turkish character rendering, no horizontal overflow, theme toggle (landing + sidebar), demo login (physician + admin), evidence search, and research quick-action flow.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "visual_regression_findings": {
+    "fonts": "h1 computed fontFamily = 'Fraunces, Georgia, serif'; body = '\"Nunito Sans\", sans-serif'. Fraunces renders Turkish glyphs (ş, ğ, ı, İ, ö, ü, ç) cleanly in headings ('İyi günler, Dr. Elif.', 'Kanıt Ara', 'İlaçlar', 'Paketler', 'Geçmiş'). Body copy readable.",
+    "palette_light": "Body bg rgb(251,250,248) warm off-white; fg rgb(37,50,65) deep soft navy. Brand sage/teal pills (Araştırma sürüyor, Hekim: Doğrulandı) render with good contrast.",
+    "palette_dark": "Body bg rgb(17,23,29); theme toggle (both landing-theme-toggle and sidebar-theme-toggle) transitions smoothly ~400ms. All surfaces (sidebar, cards, header) switch together.",
+    "overflow": "No horizontal overflow at 1440 / 1280 / 768 / 390 on any tested route (scrollWidth - clientWidth = 0 everywhere).",
+    "cta": "Primary CTAs on landing ('Ücretsiz denemeye başla') pill-shaped; secondary outlined. Dialog login options tactile with soft radii.",
+    "transitions": "280ms interactive + 400ms theme transitions observed smooth; no jank. fade-up on cards present on dashboard/arastirma."
+  },
+  "functional_sanity": {
+    "demo_login_physician": "PASS - landing-login-button -> login-dialog -> login-as-physician navigates to /",
+    "demo_login_admin": "PASS - login-as-admin navigates and /yonetim renders",
+    "evidence_search_oksuruk": "PASS - 4 evidence results rendered (TR Dizin + Europe PMC) and 'öksürük' added to history",
+    "quick_action_tedavi": "PASS - quick-action-tedavi in /arastirma/c1 appended Hekim sorusu + response flow",
+    "console_errors": "None captured on any page"
+  },
+  "test_report_links": [],
+  "action_items": [],
+  "critical_code_review_comments": [
+    "tailwind.config.js maps font-mono to Nunito Sans (matches brief, loses tabular numerics via family). Numeric columns rely only on CSS `font-variant-numeric: tabular-nums` applied via .font-mono rule in index.css line 69 — works, but note any component expecting a true mono font (e.g., diff/log views) will now render in sans. Not an issue for the current pages.",
+    "index.html meta theme-color still '#000000' — consider updating to match new warm palette (#FBFAF8) for mobile browser chrome in light mode.",
+    "index.css line 68 uses !important on h1-h4 font-weight/letter-spacing — works but discourages override; acceptable for a visual pass."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "n/a (skipped per request)", "frontend": "100%"},
+  "test_credentials": "Demo-only (client-side mock) via /tanitim login dialog: login-as-physician / login-as-admin. No real credentials required.",
+  "seed_data_creation": "None.",
+  "retest_needed": false,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "App is frontend-only mock. Login via landing-login-button -> login-dialog -> login-as-physician (or login-as-admin). Theme toggles: landing-theme-toggle on /tanitim, sidebar-theme-toggle inside AppShell. Evidence page testids: evidence-search-input, evidence-search-button, evidence-result-{id}. Research quick actions: quick-action-{tedavi|ilac|ayirici|tetkik}, composer-send-button. All tested routes render with no horizontal overflow at 1440/1280/768/390 and no console errors. Fonts (Fraunces + Nunito Sans) load from Google Fonts; verify Google Fonts not blocked if re-testing in a sandboxed network."
+}

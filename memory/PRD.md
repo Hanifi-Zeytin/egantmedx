@@ -16,6 +16,7 @@ React (CRA + craco), Tailwind, shadcn/ui, lucide-react. State: `src/lib/store.js
 - 2026-06: Pre-login landing page `/tanitim` (hero w/ rotating product preview, sources strip, 4-module bento, how-it-works, AI-vs-evidence transparency, trust, pricing preview, FAQ, CTA, footer); demo login dialog (Hekim / Yönetici); sidebar logout
 - 2026-06: Landing live product tour (#dene): 3 sample cases, composer + quick actions, simulated answers, 3 tries per session then login CTA
 - 2026-06: Hekim kayıt akışı (/kayit, 4 adım, belge adı kaydı, İnceleniyor→admin onay/ret→yeniden yükleme, profil zaman çizelgesi), turdan vakaya aktarım, Kurum başvuru formu (+ Yönetim sekmesi), Ctrl+K komut paleti, daha ferah arayüz (boşluk, kenarlık, tipografi)
+- 2026-06: Sağlık odaklı yumuşak görünüm: Fraunces + Nunito Sans, sıcak/yumuşak palet, yuvarlak köşeler, yumuşak geçişler, hap şeklinde ana butonlar
 
 ## Backlog
 - P1: Case export/print summary, inline case editing
