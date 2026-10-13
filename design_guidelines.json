@@ -1,0 +1,155 @@
+{
+  "theme": {
+    "default": "light",
+    "strategy": "toggle_light_and_dark",
+    "rationale": "Medical and clinical workflows demand utmost contrast, crisp legibility and zero visual fatigue. Restrained luxury clinical palette: Deep Navy/Obsidian base, warm crisp slate backgrounds in light mode, high-density zinc/slate dark mode, precision teal/cyan kinetic accents."
+  },
+  "colors": {
+    "light": {
+      "background": "#F8FAFC",
+      "surface": "#FFFFFF",
+      "surface_elevated": "#F1F5F9",
+      "border": "#E2E8F0",
+      "border_subtle": "#EDF2F7",
+      "text_primary": "#0F172A",
+      "text_secondary": "#475569",
+      "text_muted": "#94A3B8",
+      "brand_navy": "#0B192C",
+      "brand_indigo": "#1E3E62",
+      "accent_teal": "#0D9488",
+      "accent_teal_light": "#CCFBF1",
+      "accent_teal_border": "#99F6E4",
+      "accent_amber": "#D97706",
+      "accent_amber_bg": "#FEF3C7",
+      "accent_rose": "#E11D48",
+      "accent_rose_bg": "#FFE4E6",
+      "accent_emerald": "#059669",
+      "accent_emerald_bg": "#D1FAE5"
+    },
+    "dark": {
+      "background": "#070C14",
+      "surface": "#0F172A",
+      "surface_elevated": "#1E293B",
+      "border": "#1E293B",
+      "border_subtle": "#162032",
+      "text_primary": "#F8FAFC",
+      "text_secondary": "#94A3B8",
+      "text_muted": "#64748B",
+      "brand_navy": "#0B192C",
+      "brand_indigo": "#38BDF8",
+      "accent_teal": "#14B8A6",
+      "accent_teal_light": "#134E4A",
+      "accent_teal_border": "#2DD4BF",
+      "accent_amber": "#F59E0B",
+      "accent_amber_bg": "#451A03",
+      "accent_rose": "#F43F5E",
+      "accent_rose_bg": "#4C0519",
+      "accent_emerald": "#10B981",
+      "accent_emerald_bg": "#064E3B"
+    }
+  },
+  "typography": {
+    "font_family_heading": "Cabinet Grotesk, Manrope, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+    "font_family_body": "IBM Plex Sans, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+    "font_family_mono": "JetBrains Mono, Menlo, Monaco, Consolas, monospace",
+    "scale": {
+      "h1": "text-2xl sm:text-3xl font-semibold tracking-tight",
+      "h2": "text-xl sm:text-2xl font-semibold tracking-tight",
+      "h3": "text-base sm:text-lg font-medium tracking-normal",
+      "body": "text-sm leading-relaxed",
+      "caption": "text-xs font-mono uppercase tracking-wider text-muted-foreground"
+    }
+  },
+  "visual_enhancers": {
+    "card_style": "1px crisp border (border-border), no glossy gradients, subtle dark navy tinting, inner border glow on focus/selected states",
+    "ai_distinction_badge": "Distinct emerald-teal hairline border with 'MOCK AI YANITI' or 'YAPAY ZEKA ASİSTANI' micro-capsule pill to ensure full regulatory and clinical transparency",
+    "evidence_card_style": "Academic index citation card layout (Europe PMC / TR Dizin / Ulusal Kılavuzlar) with DOI, PMID, evidence level badge (Kanıt Düzeyi I-A / II-B) and verified checkmarks",
+    "empty_state_style": "Minimalist geometric wireframe SVG with crisp instructions, keyboard shortcut tips",
+    "composer_style": "Perplexity/Linear style expanded prompt input with quick action pills (Tedavi yaklaşımı, İlaç seçenekleri, Ayırıcı tanı, Tetkik önerileri), paperclip attachment, and circular send button"
+  },
+  "layout_architecture": {
+    "sidebar": "Collapsible 64px icon-only or 240px expanded navigation with workspace switcher (Özel Klinik, Acil Tıp Konsültasyon, Admin Workspace), physician badge, allowance counter (5/5 Ücretsiz Kullanım), theme toggle",
+    "main_content": "Full height responsive viewport with top bar breadcrumb, active workspace status, rapid global search trigger (⌘K / Ctrl+K), and physician verification pill",
+    "clinical_workspace_split": "Two-column 68% / 32% layout on desktop: Left side houses interactive conversation timeline + composer + quick prompts; Right side houses live case clinical parameters (şikâyet, yaş, cinsiyet, süre, alerjiler), quick İlaç Güvenlik Kontrolü trigger, and research export"
+  },
+  "routes_and_views": [
+    {
+      "id": "dashboard",
+      "turkish_title": "Ana Sayfa",
+      "path": "/",
+      "description": "Action-oriented command center: 3 primary action cards (Yeni Klinik Araştırma, Kanıt Ara, İlaç Sorgula), recent clinical sessions, drafts ready for research, medication query history, and verification banner."
+    },
+    {
+      "id": "research",
+      "turkish_title": "Klinik Araştırma",
+      "path": "/research",
+      "description": "Interactive clinical investigation workspace. Step 1: Anonymized patient context modal/form (Şikâyet, Yaş, Biyolojik Cinsiyet, Süre, Alerjiler, Ek Bağlam). Step 2: 68/32 split screen with mock clinical AI reasoning, cited guidelines, evidence pills, and dynamic chat composer."
+    },
+    {
+      "id": "evidence",
+      "turkish_title": "Kanıt Ara",
+      "path": "/evidence",
+      "description": "Medical literature & guidelines search engine. Filter by source (TR Dizin, Europe PMC, Sağlık Bakanlığı Kılavuzları, Cochrane). Displays abstract, sample citations, DOI/PMID, and clinical relevance score."
+    },
+    {
+      "id": "medications",
+      "turkish_title": "İlaçlar & Güvenlik",
+      "path": "/medications",
+      "description": "Comprehensive medication search over Türkiye pharmaceutical dataset (14,566 products / 4,035 active ingredients). Drug-drug interaction and allergy checker with 'Veri mevcut değil' fallback labels."
+    },
+    {
+      "id": "history",
+      "turkish_title": "Geçmiş & Arşiv",
+      "path": "/history",
+      "description": "Historical clinical sessions, searchable and filterable by date, specialty tag, and status (Tamamlandı, Taslak, Arşivlendi)."
+    },
+    {
+      "id": "packages",
+      "turkish_title": "Paketler & Abonelik",
+      "path": "/packages",
+      "description": "Transparent tiers: 'Ücretsiz Deneme' (Aktif - 5 sorgu hakkı), 'Professional Hekim' (Yakında), 'Klinik & Kurumsal' (Yakında) with feature matrix."
+    },
+    {
+      "id": "profile",
+      "turkish_title": "Hekim Profili & Doğrulama",
+      "path": "/profile",
+      "description": "Physician profile, Dip. Tescil No, Uzmanlık Alanı, and verification status state machine: 'İnceleniyor', 'Doğrulandı', 'Reddedildi'."
+    },
+    {
+      "id": "admin",
+      "turkish_title": "Yönetim Paneli",
+      "path": "/admin",
+      "description": "Admin workspace only visible when 'Yönetim / Admin' workspace is active. Manage physician verification queues, review uploaded diploma proofs, and monitor workspace allowance."
+    }
+  ],
+  "image_urls": [
+    {
+      "category": "clinical_doctor_avatar",
+      "url": "https://images.unsplash.com/photo-1625134673337-519d4d10b313?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxOTF8MHwxfHNlYXJjaHwzfHxkb2N0b3IlMjBtZWRpY2FsJTIwcmVzZWFyY2h8ZW58MHx8fHwxNzkxODQ4NDE4fDA&ixlib=rb-4.1.0&q=85",
+      "description": "Physician in lab coat holding stethoscope against dark background - used for doctor verification profile badge"
+    },
+    {
+      "category": "clinical_research_banner",
+      "url": "https://images.unsplash.com/photo-1511174511562-5f7f18b874f8?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxOTF8MHwxfHNlYXJjaHw0fHxkb2N0b3IlMjBtZWRpY2FsJTIwcmVzZWFyY2h8ZW58MHx8fHwxNzkxODQ4NDE4fDA&ixlib=rb-4.1.0&q=85",
+      "description": "Clinical research microscope laboratory - used for evidence discovery hero header card"
+    }
+  ],
+  "sample_dataset_specs": {
+    "total_products": "14.566",
+    "total_ingredients": "4.035",
+    "evidence_sources": [
+      "TÜBİTAK ULAKBİM TR Dizin",
+      "Europe PubMed Central (PMC)",
+      "T.C. Sağlık Bakanlığı Klinik Kılavuzları",
+      "Türk Tabipleri Birliği (TTB) Uzmanlık Dernekleri"
+    ]
+  },
+  "instructions_to_main_agent": [
+    "Build the complete UI in Turkish ('Ana Sayfa', 'Klinik Araştırma', 'Kanıt Ara', 'İlaçlar', 'Geçmiş', 'Paketler', 'Profil', 'Yönetim').",
+    "Provide a seamless Theme Toggle (Açık Mod / Koyu Mod) stored in localStorage and applied via Tailwind 'dark' class on documentElement.",
+    "Implement Workspace Switcher in the top/sidebar: 'Dr. Kerem Arslan (Kişisel)', 'Acil Servis Konsültasyon Grubu', and 'Yönetim / Admin Workspace'. The 'Yönetim' route is strictly visible or highlighted when in the Admin workspace.",
+    "Store all cases, search history, drug safety checks, drafts, and verification status in localStorage so the prototype persists seamlessly.",
+    "Ensure every mock AI answer is explicitly badged with '[MOCK AI YANITI - KLİNİK TAVSİYE DEĞİLDİR]' in Turkish for high medical integrity.",
+    "Include data-testid on every interactive element (buttons, tabs, inputs, modal triggers, quick prompts)."
+  ]
+}
