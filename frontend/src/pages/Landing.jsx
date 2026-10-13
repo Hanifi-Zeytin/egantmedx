@@ -5,6 +5,7 @@ import { LandingNav, Hero } from "@/components/landing/Hero";
 import { SourceStrip, Pillars, HowItWorks } from "@/components/landing/Features";
 import { Transparency, Trust, PricingPreview, Faq, FinalCta, Footer } from "@/components/landing/Sections";
 import { LoginDialog } from "@/components/landing/LoginDialog";
+import { LiveTour } from "@/components/landing/LiveTour";
 
 export default function Landing() {
   const { state } = useStore();
@@ -17,6 +18,7 @@ export default function Landing() {
       <Hero onLogin={open} />
       <SourceStrip />
       <Pillars />
+      <LiveTour onLogin={open} />
       <HowItWorks />
       <Transparency />
       <Trust />

@@ -5,7 +5,7 @@ import { MockBadge } from "@/components/common";
 import { useStore } from "@/lib/store";
 import { cn } from "@/lib/utils";
 
-const LINKS = [["ozellikler", "Özellikler"], ["nasil", "Nasıl çalışır"], ["seffaflik", "Şeffaflık"], ["paketler", "Paketler"], ["sss", "SSS"]];
+const LINKS = [["ozellikler", "Özellikler"], ["dene", "Deneyin"], ["nasil", "Nasıl çalışır"], ["seffaflik", "Şeffaflık"], ["paketler", "Paketler"], ["sss", "SSS"]];
 
 export const LandingNav = ({ onLogin }) => {
   const { state, toggleTheme } = useStore();
@@ -82,7 +82,7 @@ export const Hero = ({ onLogin }) => (
       <p className="mt-6 max-w-xl text-base leading-relaxed text-muted-foreground md:text-lg">MedAssistix; anonim vaka araştırması, literatür keşfi ve ilaç bilgisini hekimin gün içindeki iş akışına uygun tek bir platformda birleştirir. Yapay zekâ yorumu ile doğrulanmış kanıt her zaman ayrı gösterilir.</p>
       <div className="mt-8 flex flex-wrap items-center gap-3">
         <button onClick={onLogin} data-testid="hero-cta-primary" className="group inline-flex h-11 items-center gap-2 rounded-xl bg-navy px-5 text-sm font-semibold text-white transition-colors hover:bg-brand dark:bg-brand">Ücretsiz denemeye başla<ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" /></button>
-        <a href="#nasil" data-testid="hero-cta-secondary" className="inline-flex h-11 items-center rounded-xl border px-5 text-sm font-medium transition-colors hover:bg-accent">Nasıl çalıştığını gör</a>
+        <a href="#dene" data-testid="hero-cta-secondary" className="inline-flex h-11 items-center rounded-xl border px-5 text-sm font-medium transition-colors hover:bg-accent">Giriş yapmadan deneyin</a>
       </div>
       <div className="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-[12.5px] text-muted-foreground">
         {["Hekim doğrulamasından sonra 5 ücretsiz sorgu", "Kimliklendirici hasta bilgisi istenmez", "Kredi kartı gerekmez"].map((t) => <span key={t} className="inline-flex items-center gap-1.5"><Check className="h-3.5 w-3.5 text-brand" />{t}</span>)}
