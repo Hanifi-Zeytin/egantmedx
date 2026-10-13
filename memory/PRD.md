@@ -14,6 +14,7 @@ React (CRA + craco), Tailwind, shadcn/ui, lucide-react. State: `src/lib/store.js
 ## Implemented
 - 2026-06: Full app (Ana Sayfa, Klinik Araştırma, Kanıt Ara, İlaçlar + Güvenlik Kontrolü, Geçmiş, Paketler, Profil, Yönetim), workspace switcher, themes
 - 2026-06: Pre-login landing page `/tanitim` (hero w/ rotating product preview, sources strip, 4-module bento, how-it-works, AI-vs-evidence transparency, trust, pricing preview, FAQ, CTA, footer); demo login dialog (Hekim / Yönetici); sidebar logout
+- 2026-06: Landing live product tour (#dene): 3 sample cases, composer + quick actions, simulated answers, 3 tries per session then login CTA
 
 ## Backlog
 - P1: Command palette (Ctrl+K), case export/print summary, inline case editing

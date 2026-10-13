@@ -1,0 +1,41 @@
+{
+  "summary": "Frontend-only testing of 'Canlı Ürün Turu' feature on /tanitim. All 13 critical assertions pass on desktop; mobile 390px has no horizontal overflow; regression on /arastirma/c1 passes (composer-drug-lookup-link present, quick actions work).",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": [],
+  "action_items": [],
+  "critical_code_review_comments": [
+    "LiveTour.jsx is clean, well-scoped (~95 lines). Uses sessionStorage key 'medassistix-tour-used' correctly; limit persists across reloads within session.",
+    "Composer.jsx hideDrugLink prop cleanly suppresses the drug-lookup link inside the tour while preserving it in /arastirma/*.",
+    "Clarification mock heuristic requires kind==='genel' AND text.length<14; typing 'merhaba' correctly triggers message-clarification without consuming a tour credit (as designed)."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "N/A", "frontend": "100%"},
+  "test_credentials": "none (demo login via landing-login-button + login-as-physician)",
+  "seed_data_creation": "",
+  "retest_needed": false,
+  "should_main_agent_self_test": false,
+  "context_for_next_testing_agent": "Live tour feature on /tanitim fully verified. Tour section id='dene', testids: landing-live-tour, tour-case-t1/t2/t3, tour-active-case, tour-messages, tour-remaining, tour-reset-button, tour-limit-reached, tour-login-button. Mock answer latency ~1500ms. sessionStorage key 'medassistix-tour-used'. Login flow: data-testid='landing-login-button' then 'login-as-physician' navigates to /. Research workspace at /arastirma/c1 retains composer-drug-lookup-link.",
+  "test_results": {
+    "tour_section_visible": "PASS",
+    "nav_dene_scroll": "PASS",
+    "hero_cta_secondary_scroll": "PASS",
+    "case_picker_t1_t2_t3_switch": "PASS",
+    "clarification_short_merhaba_no_consume": "PASS",
+    "error_hata_no_consume": "PASS",
+    "quick_action_tedavi_consumes_credit": "PASS",
+    "tour_reset_clears_messages": "PASS",
+    "limit_reached_after_3_answers": "PASS",
+    "tour_login_button_opens_dialog": "PASS",
+    "persistence_on_reload_sessionStorage": "PASS",
+    "no_drug_link_in_tour_composer": "PASS",
+    "mobile_390px_no_horizontal_overflow": "PASS",
+    "mobile_composer_usable": "PASS",
+    "regression_arastirma_c1_drug_link_present": "PASS",
+    "regression_arastirma_c1_quick_actions_work": "PASS"
+  }
+}
