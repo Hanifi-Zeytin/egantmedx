@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Microscope, BookOpenText, Pill, ArrowRight, ArrowUp, FileClock, PlayCircle, Clock, Inbox, Building2, Sparkles } from "lucide-react";
-import { useStore, useWorkspaceCases, caseTitle, FREE_QUOTA } from "@/lib/store";
+import { useStore, useWorkspaceCases, usePhysician, caseTitle, FREE_QUOTA } from "@/lib/store";
 import { StatusBadge, caseStatus, Panel, EmptyState } from "@/components/common";
 import { VerificationPill } from "@/components/layout/Topbar";
-import { PRODUCTS, PHYSICIAN, WORKSPACES } from "@/data/demo";
+import { PRODUCTS, WORKSPACES } from "@/data/demo";
 import { greeting, timeAgo } from "@/lib/format";
 import { cn } from "@/lib/utils";
 
@@ -27,6 +27,16 @@ const QuickStart = () => {
     </div>
   );
 };
+
+const VerificationBanner = ({ status }) => (
+  <div data-testid="dashboard-verification-banner" className={cn("flex flex-col gap-3 rounded-2xl border p-5 sm:flex-row sm:items-center", status === "Reddedildi" ? "border-rose-200 bg-rose-50/60 dark:border-rose-900 dark:bg-rose-950/20" : "border-amber-200 bg-amber-50/60 dark:border-amber-900 dark:bg-amber-950/20")}>
+    <div className="flex-1">
+      <div className="font-display text-[15px] font-bold">{status === "Reddedildi" ? "Doğrulama başvurunuz reddedildi" : "Hekim doğrulamanız inceleniyor"}</div>
+      <p className="mt-1 text-[13px] leading-relaxed text-muted-foreground">{status === "Reddedildi" ? "Güncel belgelerinizi Profil sayfasından yeniden yükleyebilirsiniz." : "Onaylandığında 5 ücretsiz klinik sorgu tanımlanır. Bu sırada Kanıt Ara ve İlaçlar modüllerini kullanabilirsiniz."}</p>
+    </div>
+    <Link to="/profil" data-testid="dashboard-verification-link" className="inline-flex h-9 shrink-0 items-center gap-1.5 rounded-lg border bg-card px-3.5 text-sm font-medium hover:bg-surface">Durumu görüntüle<ArrowRight className="h-3.5 w-3.5" /></Link>
+  </div>
+);
 
 const CaseRow = ({ c, testId }) => (
   <Link to={c.status === "taslak" ? `/arastirma?taslak=${c.id}` : `/arastirma/${c.id}`} data-testid={testId}
@@ -93,6 +103,7 @@ const RecentMeds = () => {
 
 export default function Dashboard() {
   const { state } = useStore();
+  const PHYSICIAN = usePhysician();
   const cases = useWorkspaceCases();
   const active = cases.filter((c) => c.status !== "arsiv").sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
   const ongoing = active.find((c) => c.status === "hazir" && c.messages.length);
@@ -102,15 +113,16 @@ export default function Dashboard() {
   const today = new Date().toLocaleDateString("tr-TR", { weekday: "long", day: "numeric", month: "long" });
 
   return (
-    <div className="space-y-8" data-testid="dashboard-page">
+    <div className="space-y-10" data-testid="dashboard-page">
       <div className="fade-up">
         <div className="eyebrow mb-2">{today}</div>
-        <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight">{greeting()}, {PHYSICIAN.name.replace("Dr. ", "Dr. ").split(" ").slice(0, 2).join(" ")}.</h1>
+        <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight">{greeting()}, {PHYSICIAN.name.split(" ").slice(0, 2).join(" ")}.</h1>
         <p className="mt-2 text-[15px] text-muted-foreground">{isNew ? "MedAssistix'e hoş geldiniz. İlk klinik araştırmanızla başlayın." : ongoing ? "Devam eden bir araştırmanız var — ya da yeni bir soruyla başlayın." : "Bugün nereden başlamak istersiniz?"}</p>
       </div>
 
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_320px]">
         <div className="space-y-6 min-w-0">
+          {state.verification !== "Doğrulandı" && <VerificationBanner status={state.verification} />}
           <QuickStart />
           <div className="grid gap-3 sm:grid-cols-3">
             {ACTIONS.map((a, i) => (

@@ -41,14 +41,14 @@ export const PageHeader = ({ eyebrow, title, description, actions }) => (
     <div className="min-w-0">
       {eyebrow && <div className="eyebrow mb-2">{eyebrow}</div>}
       <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">{title}</h1>
-      {description && <p className="mt-2 max-w-2xl text-sm text-muted-foreground leading-relaxed">{description}</p>}
+      {description && <p className="mt-3 max-w-2xl text-[15px] text-muted-foreground leading-relaxed">{description}</p>}
     </div>
     {actions && <div className="flex flex-wrap gap-2">{actions}</div>}
   </div>
 );
 
 export const Panel = ({ className, children, ...rest }) => (
-  <div className={cn("rounded-xl border bg-card", className)} {...rest}>{children}</div>
+  <div className={cn("rounded-2xl border bg-card", className)} {...rest}>{children}</div>
 );
 
 export const EmptyState = ({ icon: Icon, title, text, action, testId }) => (

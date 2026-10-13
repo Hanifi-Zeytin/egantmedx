@@ -86,7 +86,7 @@ export default function NewResearch() {
   };
 
   return (
-    <div className="space-y-8" data-testid="new-research-page">
+    <div className="space-y-10" data-testid="new-research-page">
       <PageHeader eyebrow="Klinik Araştırma" title={draftId ? "Taslak vakayı tamamlayın" : "Yeni klinik araştırma"} description="Anonim bir vaka oluşturun. Asistan yanıtlarını bu bağlama göre yapılandırır. Taslak olarak kaydedebilir veya araştırmayı hemen başlatabilirsiniz." />
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_320px]">
         <Panel className="overflow-hidden">

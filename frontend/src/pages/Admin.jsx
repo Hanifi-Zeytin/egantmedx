@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ShieldCheck, Clock3, BadgeCheck, XCircle, Users, Building2, ScrollText, LayoutGrid, AlertTriangle } from "lucide-react";
+import { ShieldCheck, Clock3, BadgeCheck, XCircle, Users, Building2, ScrollText, LayoutGrid, AlertTriangle, Inbox } from "lucide-react";
 import { useStore } from "@/lib/store";
 import { PageHeader, Panel, EmptyState } from "@/components/common";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -20,11 +20,11 @@ const Stat = ({ icon: Icon, label, value, testId }) => (
 );
 
 const ReviewDialog = ({ doc, onClose }) => {
-  const { set, log } = useStore();
+  const { log, setPhysicianStatus } = useStore();
   const [reason, setReason] = useState("");
   const decide = (status) => {
     if (status === "Reddedildi" && !reason.trim()) { toast.error("Ret gerekçesi gereklidir"); return; }
-    set((s) => ({ physicians: s.physicians.map((p) => (p.id === doc.id ? { ...p, status, reason: reason.trim() || undefined } : p)) }));
+    setPhysicianStatus(doc.id, status, reason.trim());
     log(`${doc.name} → ${status}${reason ? ` (${reason})` : ""}`);
     toast.success(`${doc.name}: ${status}`);
     onClose();
@@ -45,7 +45,7 @@ const ReviewDialog = ({ doc, onClose }) => {
 };
 
 export default function Admin() {
-  const { state, set } = useStore();
+  const { state, set, setPhysicianStatus } = useStore();
   const navigate = useNavigate();
   const [review, setReview] = useState(null);
 
@@ -57,12 +57,12 @@ export default function Admin() {
   const ph = state.physicians;
   const pending = ph.filter((p) => p.status === "İnceleniyor");
   return (
-    <div className="space-y-8" data-testid="admin-page">
+    <div className="space-y-10" data-testid="admin-page">
       <PageHeader eyebrow="Platform Yönetimi" title="Yönetim" description="Hekim doğrulama, hesap ve çalışma alanı yönetimi. Tüm kayıtlar örnektir." />
       <div className="flex items-start gap-3 rounded-xl border border-amber-300/70 bg-amber-50/60 p-4 text-[13px] text-amber-900 dark:border-amber-900 dark:bg-amber-950/30 dark:text-amber-200" data-testid="admin-permission-note"><AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />Yönetici yetkisi, hekim onayı anlamına gelmez. Klinik modüllere erişim yalnızca doğrulanmış hekim hesaplarıyla mümkündür.</div>
       <Tabs defaultValue="overview">
         <TabsList className="flex h-auto w-full flex-wrap justify-start gap-1 bg-transparent p-0">
-          {[["overview", "Genel bakış", LayoutGrid], ["queue", `Doğrulama kuyruğu (${pending.length})`, Clock3], ["accounts", "Hesaplar", Users], ["workspaces", "Çalışma alanları", Building2], ["logs", "Kayıtlar", ScrollText]].map(([v, l, I]) => (
+          {[["overview", "Genel bakış", LayoutGrid], ["queue", `Doğrulama kuyruğu (${pending.length})`, Clock3], ["accounts", "Hesaplar", Users], ["orgs", `Kurum başvuruları (${state.orgRequests.length})`, Inbox], ["workspaces", "Çalışma alanları", Building2], ["logs", "Kayıtlar", ScrollText]].map(([v, l, I]) => (
             <TabsTrigger key={v} value={v} data-testid={`admin-tab-${v}`} className="gap-1.5 rounded-lg border border-transparent px-3 py-1.5 data-[state=active]:border-border data-[state=active]:bg-card data-[state=active]:shadow-sm"><I className="h-3.5 w-3.5" />{l}</TabsTrigger>
           ))}
         </TabsList>
@@ -80,7 +80,7 @@ export default function Admin() {
               <div className="min-w-0 flex-1"><div className="flex items-center gap-2"><span className="font-semibold text-[14px]">{p.name}</span><Pill s={p.status} /></div>
                 <div className="mt-0.5 text-[12px] text-muted-foreground">{p.title} · {p.city} · {p.doc} · başvuru {timeAgo(p.submitted)}{p.reason && ` · Gerekçe: ${p.reason}`}</div></div>
               {p.status === "İnceleniyor" ? <Button size="sm" onClick={() => setReview(p)} data-testid={`queue-review-${p.id}`}>İncele</Button>
-                : <Button size="sm" variant="ghost" onClick={() => set((s) => ({ physicians: s.physicians.map((x) => (x.id === p.id ? { ...x, status: "İnceleniyor", reason: undefined } : x)) }))} data-testid={`queue-reopen-${p.id}`}>Yeniden incele</Button>}
+                : <Button size="sm" variant="ghost" onClick={() => setPhysicianStatus(p.id, "İnceleniyor")} data-testid={`queue-reopen-${p.id}`}>Yeniden incele</Button>}
             </div>
           ))}
         </TabsContent>
@@ -91,6 +91,18 @@ export default function Admin() {
               <tbody>{ACCOUNTS.map((a) => <tr key={a.id} className="border-b last:border-0"><td className="px-4 py-3 font-medium">{a.name}</td><td className="px-4 py-3 text-muted-foreground">{a.email}</td><td className="px-4 py-3"><div className="flex flex-wrap gap-1">{a.roles.map((r) => <span key={r} className={cn("rounded px-1.5 py-0.5 text-[11px]", r.includes("Yönetici") ? "bg-amber-50 text-amber-800 dark:bg-amber-950/50 dark:text-amber-300" : "bg-brand-soft text-brand-fg")}>{r}</span>)}</div></td><td className="px-4 py-3 text-muted-foreground">{a.ws}</td></tr>)}</tbody>
             </table>
           </Panel>
+        </TabsContent>
+        <TabsContent value="orgs" className="mt-6 space-y-3" data-testid="admin-orgs">
+          {state.orgRequests.length ? state.orgRequests.map((o) => (
+            <Panel key={o.id} className="flex flex-col gap-3 p-5 sm:flex-row sm:items-center" data-testid={`org-request-${o.id}`}>
+              <div className="min-w-0 flex-1">
+                <div className="flex flex-wrap items-center gap-2"><span className="text-[14.5px] font-semibold">{o.org}</span><span className="rounded-full bg-indigo-50 px-2 py-0.5 text-[11px] text-indigo-700 dark:bg-indigo-950/50 dark:text-indigo-300">{o.status}</span></div>
+                <div className="mt-1 text-[12.5px] text-muted-foreground">{o.type}{o.city && ` · ${o.city}`}{o.size && ` · ${o.size} hekim`} · {o.contact} · {o.email} · {timeAgo(o.at)}</div>
+                {o.note && <p className="mt-2 text-[13px] text-foreground/80">“{o.note}”</p>}
+              </div>
+              {o.status === "Yeni" && <Button size="sm" variant="outline" data-testid={`org-mark-${o.id}`} onClick={() => set((s) => ({ orgRequests: s.orgRequests.map((x) => (x.id === o.id ? { ...x, status: "İletişime geçildi" } : x)) }))}>İletişime geçildi</Button>}
+            </Panel>
+          )) : <EmptyState testId="admin-orgs-empty" icon={Inbox} title="Henüz kurum başvurusu yok" text="Tanıtım sayfasındaki “Kurumlar için” formundan gelen başvurular burada listelenir." />}
         </TabsContent>
         <TabsContent value="workspaces" className="mt-6 grid gap-3 md:grid-cols-3">
           {WORKSPACES.map((w) => <Panel key={w.id} className="p-4" data-testid={`admin-workspace-${w.id}`}><div className="text-[14px] font-semibold">{w.name}</div><div className="text-[12px] text-muted-foreground">{w.sub}</div><div className="mt-3 inline-block rounded bg-surface px-2 py-0.5 font-mono text-[11px]">{w.type === "admin" ? "Yönetici bağlamı" : "Hekim bağlamı"}</div></Panel>)}

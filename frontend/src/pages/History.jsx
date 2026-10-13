@@ -50,7 +50,7 @@ export default function History() {
   const count = (k) => cases.filter((c) => (k === "tumu" ? c.status !== "arsiv" : caseStatus(c) === k)).length;
 
   return (
-    <div className="space-y-8" data-testid="history-page">
+    <div className="space-y-10" data-testid="history-page">
       <PageHeader eyebrow="Arşiv ve oturumlar" title="Geçmiş" description="Önceki araştırmalarınıza dönün, taslakları tamamlayın veya vakaları arşivleyin."
         actions={<Link to="/arastirma" data-testid="history-new-button" className="inline-flex h-9 items-center gap-2 rounded-lg bg-navy px-4 text-sm font-medium text-white dark:bg-brand"><Plus className="h-4 w-4" />Yeni araştırma</Link>} />
       <div className="flex flex-col gap-3 md:flex-row md:items-center">

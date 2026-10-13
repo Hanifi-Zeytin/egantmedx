@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { Menu, BadgeCheck, Clock3, XCircle, Moon, Sun, FlaskConical } from "lucide-react";
+import { Menu, BadgeCheck, Clock3, XCircle, Moon, Sun, FlaskConical, Search } from "lucide-react";
 import { useStore } from "@/lib/store";
 import { WORKSPACES } from "@/data/demo";
 import { Logo } from "@/components/layout/Sidebar";
@@ -22,13 +22,13 @@ export const VerificationPill = ({ status, testId = "verification-pill" }) => {
   return <span data-testid={testId} className={cn("inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-medium", v.cls)}><v.icon className="h-3.5 w-3.5" />Hekim: {status}</span>;
 };
 
-export const Topbar = ({ onMenu }) => {
+export const Topbar = ({ onMenu, onSearch }) => {
   const { state, toggleTheme } = useStore();
   const { pathname } = useLocation();
   const title = TITLES.find(([r]) => r.test(pathname))?.[1] || "";
   const ws = WORKSPACES.find((w) => w.id === state.workspace);
   return (
-    <header className="flex h-14 shrink-0 items-center gap-3 border-b bg-background/80 px-4 backdrop-blur-md sm:px-6">
+    <header className="flex h-16 shrink-0 items-center gap-3 border-b bg-background/80 px-4 backdrop-blur-md sm:px-8">
       <button data-testid="mobile-menu-button" onClick={onMenu} aria-label="Menüyü aç" className="grid h-9 w-9 place-items-center rounded-md border lg:hidden"><Menu className="h-4 w-4" /></button>
       <div className="lg:hidden"><Logo collapsed /></div>
       <div className="min-w-0 flex-1">
@@ -38,7 +38,10 @@ export const Topbar = ({ onMenu }) => {
           <span data-testid="topbar-title" className="truncate font-medium">{title}</span>
         </div>
       </div>
-      <span data-testid="prototype-pill" title="Bu uygulama bir prototiptir; tüm veriler örnektir ve yapay zekâ yanıtları simüle edilmiştir." className="hidden items-center gap-1.5 rounded-full border border-dashed px-2.5 py-1 font-mono text-[10.5px] tracking-wide text-muted-foreground md:inline-flex"><FlaskConical className="h-3 w-3" />PROTOTİP · DEMO VERİ</span>
+      <button onClick={onSearch} data-testid="topbar-search-button" aria-label="Hızlı arama" className="flex h-9 items-center gap-2 rounded-lg border bg-card px-3 text-[13px] text-muted-foreground transition-colors hover:border-foreground/20 hover:text-foreground">
+        <Search className="h-4 w-4" /><span className="hidden lg:inline">Hızlı ara…</span><kbd className="hidden rounded border bg-surface px-1.5 font-mono text-[10px] lg:inline">Ctrl K</kbd>
+      </button>
+      <span data-testid="prototype-pill" title="Bu uygulama bir prototiptir; tüm veriler örnektir ve yapay zekâ yanıtları simüle edilmiştir." className="hidden items-center gap-1.5 rounded-full border border-dashed px-2.5 py-1 font-mono text-[10.5px] tracking-wide text-muted-foreground xl:inline-flex"><FlaskConical className="h-3 w-3" />PROTOTİP · DEMO VERİ</span>
       {state.workspace !== "admin" && <Link to="/profil" className="hidden sm:block"><VerificationPill status={state.verification} /></Link>}
       <button data-testid="topbar-theme-toggle" onClick={toggleTheme} aria-label="Temayı değiştir" className="grid h-9 w-9 place-items-center rounded-md text-muted-foreground hover:bg-accent hover:text-foreground lg:hidden">{state.theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}</button>
     </header>

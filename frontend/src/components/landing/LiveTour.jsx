@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import { PlayCircle, Lock, RotateCcw, ArrowRight } from "lucide-react";
+import { PlayCircle, Lock, RotateCcw, ArrowRight, FolderInput } from "lucide-react";
+import { useStore } from "@/lib/store";
 import { Composer } from "@/components/research/Composer";
 import { UserMessage, AssistantMessage, ThinkingMessage } from "@/components/research/Message";
 import { buildAssistant, detectKind } from "@/data/mock";
@@ -29,12 +30,15 @@ const CasePicker = ({ active, onPick }) => (
   </div>
 );
 
-const LimitCard = ({ onLogin }) => (
+const LimitCard = ({ onLogin, onCarry }) => (
   <div className="rounded-2xl border border-dashed bg-surface/70 p-5 text-center fade-up" data-testid="tour-limit-reached">
     <Lock className="mx-auto h-5 w-5 text-muted-foreground" />
     <div className="mt-2 font-display text-[15px] font-bold">Deneme sorularınız tamamlandı</div>
     <p className="mt-1 text-[12.5px] text-muted-foreground">Kendi vakalarınızla devam etmek için giriş yapın; doğrulamadan sonra 5 ücretsiz sorgu tanımlanır.</p>
-    <button onClick={onLogin} data-testid="tour-login-button" className="mt-4 inline-flex h-10 items-center gap-2 rounded-lg bg-navy px-4 text-sm font-medium text-white hover:bg-brand dark:bg-brand">Giriş yap ve devam et<ArrowRight className="h-4 w-4" /></button>
+    <div className="mt-4 flex flex-wrap justify-center gap-2">
+      <button onClick={onCarry} data-testid="tour-limit-carry-button" className="inline-flex h-10 items-center gap-2 rounded-lg bg-navy px-4 text-sm font-medium text-white hover:bg-brand dark:bg-brand"><FolderInput className="h-4 w-4" />Vakayı hesabıma aktar</button>
+      <button onClick={onLogin} data-testid="tour-login-button" className="inline-flex h-10 items-center gap-2 rounded-lg border px-4 text-sm font-medium hover:bg-surface">Giriş yap<ArrowRight className="h-4 w-4" /></button>
+    </div>
   </div>
 );
 
@@ -45,6 +49,7 @@ export const LiveTour = ({ onLogin }) => {
   const [step, setStep] = useState(0);
   const [used, setUsed] = useState(() => Number(sessionStorage.getItem(KEY) || 0));
   const timers = useRef([]);
+  const { set } = useStore();
   const scrollRef = useRef(null);
 
   useEffect(() => () => timers.current.forEach(clearTimeout), []);
@@ -64,6 +69,7 @@ export const LiveTour = ({ onLogin }) => {
       setBusy(false);
     }, 1500)];
   };
+  const carry = () => { set({ pendingTour: { c, messages } }); onLogin(); };
   const pick = (next) => { if (busy) return; setC(next); setMessages([]); };
 
   return (
@@ -78,7 +84,12 @@ export const LiveTour = ({ onLogin }) => {
           <div className="flex items-center gap-2 border-b bg-surface/70 px-4 py-2.5 text-[12px]">
             <span className="truncate font-medium" data-testid="tour-active-case">{c.complaint}</span>
             <span className="hidden text-muted-foreground sm:inline">· {c.age} yaş · {c.sex}</span>
-            {messages.length > 0 && <button onClick={() => !busy && setMessages([])} data-testid="tour-reset-button" className="ml-auto inline-flex items-center gap-1 text-muted-foreground hover:text-foreground"><RotateCcw className="h-3 w-3" />Temizle</button>}
+            {messages.length > 0 && !busy && (
+              <div className="ml-auto flex items-center gap-3">
+                <button onClick={carry} data-testid="tour-carry-button" className="inline-flex items-center gap-1 font-medium text-brand-fg hover:underline"><FolderInput className="h-3.5 w-3.5" />Hesabıma aktar</button>
+                <button onClick={() => setMessages([])} data-testid="tour-reset-button" className="inline-flex items-center gap-1 text-muted-foreground hover:text-foreground"><RotateCcw className="h-3 w-3" />Temizle</button>
+              </div>
+            )}
           </div>
           <div ref={scrollRef} className="h-[420px] space-y-4 overflow-y-auto p-4 scrollbar-thin sm:p-5" data-testid="tour-messages">
             {!messages.length && !busy && <div className="grid h-full place-items-center text-center text-[13px] text-muted-foreground" data-testid="tour-empty">Aşağıdan bir soru yazın veya hızlı eylem seçin.</div>}
@@ -86,7 +97,7 @@ export const LiveTour = ({ onLogin }) => {
             {busy && <ThinkingMessage step={step} />}
           </div>
           <div className="border-t p-3 sm:p-4">
-            {left <= 0 && !busy ? <LimitCard onLogin={onLogin} /> : <Composer onSend={send} busy={busy} hideDrugLink />}
+            {left <= 0 && !busy ? <LimitCard onLogin={onLogin} onCarry={carry} /> : <Composer onSend={send} busy={busy} hideDrugLink />}
           </div>
         </div>
       </div>

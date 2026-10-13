@@ -71,7 +71,7 @@ export default function Evidence() {
   }, [q, src, lang, type]);
 
   return (
-    <div className="space-y-8" data-testid="evidence-page">
+    <div className="space-y-10" data-testid="evidence-page">
       <PageHeader eyebrow="Bilimsel Kanıt" title="Kanıt Ara" description="Klinik konulara göre Türkçe ve uluslararası literatürde yayın keşfi. Yalnızca bibliyografik bilgi ve orijinal kaynağa bağlantı gösterilir; tam metin çoğaltılmaz." />
 
       <div className="rounded-2xl border bg-card p-2 shadow-[0_8px_30px_-16px_rgba(15,23,42,.25)] transition-shadow focus-within:shadow-[0_0_0_4px_rgba(99,102,241,.12)]">

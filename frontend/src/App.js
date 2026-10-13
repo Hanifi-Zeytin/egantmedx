@@ -15,6 +15,7 @@ import Packages from "@/pages/Packages";
 import Profile from "@/pages/Profile";
 import Admin from "@/pages/Admin";
 import Landing from "@/pages/Landing";
+import Signup from "@/pages/Signup";
 
 const ThemedToaster = () => {
   const { state } = useStore();
@@ -28,6 +29,7 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="tanitim" element={<Landing />} />
+            <Route path="kayit" element={<Signup />} />
             <Route element={<AppShell />}>
               <Route index element={<Dashboard />} />
               <Route path="arastirma" element={<NewResearch />} />

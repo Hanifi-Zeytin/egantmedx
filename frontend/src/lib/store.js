@@ -1,5 +1,5 @@
 import { createContext, createElement, useCallback, useContext, useEffect, useMemo, useState } from "react";
-import { seedCases, seedPhysicians } from "@/data/demo";
+import { seedCases, seedPhysicians, PHYSICIAN } from "@/data/demo";
 import { uid } from "@/lib/format";
 
 const KEY = "medassistix-prototype-v1";
@@ -10,6 +10,7 @@ const initial = () => ({
   cases: seedCases(), evidenceHistory: ["kronik öksürük", "hipertansiyon"], recentMeds: ["p6", "p10"],
   verification: "Doğrulandı", queriesUsed: 1, physicians: seedPhysicians(),
   audit: [{ id: "l0", text: "Demo çalışma alanı oluşturuldu", at: new Date().toISOString() }],
+  profile: null, pendingTour: null, orgRequests: [],
 });
 
 const load = () => {
@@ -47,6 +48,27 @@ export const StoreProvider = ({ children }) => {
     clearEvidenceHistory: () => set({ evidenceHistory: [] }),
     visitMed: (id) => set((s) => ({ recentMeds: [id, ...s.recentMeds.filter((x) => x !== id)].slice(0, 6) })),
     log: (text) => set((s) => ({ audit: [{ id: uid(), text, at: new Date().toISOString() }, ...s.audit].slice(0, 30) })),
+    importTour: () => {
+      const id = uid();
+      const now = new Date().toISOString();
+      set((s) => {
+        if (!s.pendingTour) return {};
+        const { c, messages } = s.pendingTour;
+        const imported = { id, ws: "personal", complaint: c.complaint, age: c.age, sex: c.sex, duration: c.duration, allergies: c.allergies, context: "Tanıtım sayfasındaki canlı turdan aktarıldı.", status: "hazir", messages, createdAt: now, updatedAt: now };
+        return { cases: [imported, ...s.cases], pendingTour: null, workspace: "personal" };
+      });
+      return id;
+    },
+    submitSignup: (profile) => set((s) => ({
+      profile, entered: true, workspace: "personal", verification: "İnceleniyor", queriesUsed: 0,
+      cases: s.cases.filter((c) => c.ws !== "personal"), evidenceHistory: [], recentMeds: [],
+      physicians: [{ id: "me", name: profile.name, title: profile.title, city: profile.city, status: "İnceleniyor", submitted: new Date().toISOString(), doc: profile.docs.map((d) => d.name).join(", ") }, ...s.physicians.filter((p) => p.id !== "me")],
+      audit: [{ id: uid(), text: `Yeni hekim başvurusu: ${profile.name}`, at: new Date().toISOString() }, ...s.audit],
+    })),
+    setPhysicianStatus: (pid, status, reason) => set((s) => ({
+      physicians: s.physicians.map((p) => (p.id === pid ? { ...p, status, reason: reason || undefined } : p)),
+      ...(pid === "me" ? { verification: status } : {}),
+    })),
     resetDemo: () => setState({ ...initial(), theme: state.theme, entered: true }),
     emptyDemo: () => setState({ ...initial(), theme: state.theme, entered: true, cases: [], evidenceHistory: [], recentMeds: [], queriesUsed: 0 }),
   }), [set, state.theme]);
@@ -55,6 +77,11 @@ export const StoreProvider = ({ children }) => {
 };
 
 export const useStore = () => useContext(Ctx);
+
+export const usePhysician = () => {
+  const { state } = useStore();
+  return state.profile || PHYSICIAN;
+};
 
 export const useWorkspaceCases = () => {
   const { state } = useStore();

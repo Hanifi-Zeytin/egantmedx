@@ -57,7 +57,7 @@ const PLANS = [
   { name: "Klinik / Kurum", price: "Yakında", note: "ASM, poliklinik ve kurumlar", items: ["Ekip çalışma alanları", "Yönetici paneli", "Kurumsal hesap yönetimi"] },
 ];
 
-export const PricingPreview = ({ onLogin }) => (
+export const PricingPreview = ({ onSignup }) => (
   <section id="paketler" className="mx-auto max-w-[1240px] scroll-mt-20 px-5 py-24 sm:px-8" data-testid="landing-pricing">
     <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
       <div><div className="eyebrow mb-3">Paketler</div><h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl">Ücretsiz başlayın.</h2></div>
@@ -70,7 +70,7 @@ export const PricingPreview = ({ onLogin }) => (
           <div className={`mt-3 font-display text-3xl font-extrabold ${p.active ? "" : "text-muted-foreground"}`}>{p.price}</div>
           <div className="text-[12.5px] text-muted-foreground">{p.note}</div>
           <ul className="mt-5 flex-1 space-y-2">{p.items.map((i) => <li key={i} className="flex gap-2 text-[13.5px]"><Check className="mt-0.5 h-3.5 w-3.5 text-brand" />{i}</li>)}</ul>
-          {p.active ? <button onClick={onLogin} data-testid="landing-plan-trial-cta" className="mt-6 h-10 rounded-lg bg-navy text-sm font-medium text-white hover:bg-brand dark:bg-brand">Denemeye başla</button> : <div className="mt-6 h-10 rounded-lg border border-dashed text-center text-sm leading-10 text-muted-foreground">Yakında</div>}
+          {p.active ? <button onClick={onSignup} data-testid="landing-plan-trial-cta" className="mt-6 h-10 rounded-lg bg-navy text-sm font-medium text-white hover:bg-brand dark:bg-brand">Denemeye başla</button> : <div className="mt-6 h-10 rounded-lg border border-dashed text-center text-sm leading-10 text-muted-foreground">Yakında</div>}
         </div>
       ))}
     </div>
@@ -101,14 +101,14 @@ export const Faq = () => (
   </section>
 );
 
-export const FinalCta = ({ onLogin }) => (
+export const FinalCta = ({ onSignup }) => (
   <section className="mx-auto max-w-[1240px] px-5 py-24 sm:px-8" data-testid="landing-final-cta">
     <div className="relative overflow-hidden rounded-3xl border bg-card p-10 sm:p-14">
       <div className="absolute inset-0 grid-bg opacity-60 [mask-image:linear-gradient(to_left,black,transparent_70%)]" />
       <div className="relative max-w-2xl">
         <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl">Güven. Kesinlik. Klinik netlik.</h2>
         <p className="mt-4 text-muted-foreground md:text-lg">İlk klinik araştırmanızı birkaç dakika içinde başlatın.</p>
-        <button onClick={onLogin} data-testid="final-cta-button" className="group mt-8 inline-flex h-11 items-center gap-2 rounded-xl bg-navy px-5 text-sm font-semibold text-white hover:bg-brand dark:bg-brand">Ücretsiz başla<ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" /></button>
+        <button onClick={onSignup} data-testid="final-cta-button" className="group mt-8 inline-flex h-11 items-center gap-2 rounded-xl bg-navy px-5 text-sm font-semibold text-white hover:bg-brand dark:bg-brand">Ücretsiz başla<ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" /></button>
       </div>
     </div>
   </section>

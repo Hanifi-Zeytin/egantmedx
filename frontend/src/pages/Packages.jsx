@@ -16,7 +16,7 @@ export default function Packages() {
   const [notify, setNotify] = useState({});
   const left = Math.max(FREE_QUOTA - state.queriesUsed, 0);
   return (
-    <div className="space-y-8" data-testid="packages-page">
+    <div className="space-y-10" data-testid="packages-page">
       <PageHeader eyebrow="Abonelik" title="Paketler" description="Şu anda yalnızca Ücretsiz Deneme etkindir. Ücretli paketler ve ödeme altyapısı henüz kullanıma açılmamıştır." />
       <div className="flex items-start gap-3 rounded-xl border border-dashed bg-surface/60 p-4 text-[13px]" data-testid="packages-notice"><Info className="mt-0.5 h-4 w-4 shrink-0 text-brand" /><span>Ödeme alınmaz ve satın alma yapılamaz. “Yakında” paketler için yalnızca bilgilendirme tercihi kaydedebilirsiniz (prototip, yerel).</span></div>
       <div className="grid gap-4 md:grid-cols-3">

@@ -1,8 +1,9 @@
-import { BadgeCheck, Clock3, XCircle, Moon, Sun, RotateCcw, Trash2, Building2, Mail, Stethoscope, FileText } from "lucide-react";
-import { useStore } from "@/lib/store";
+import { BadgeCheck, Clock3, XCircle, Moon, Sun, RotateCcw, Trash2, Building2, Mail, Stethoscope, FileText, UploadCloud, Check } from "lucide-react";
+import { useRef } from "react";
+import { useStore, usePhysician } from "@/lib/store";
 import { PageHeader, Panel } from "@/components/common";
 import { VerificationPill } from "@/components/layout/Topbar";
-import { PHYSICIAN, WORKSPACES } from "@/data/demo";
+import { WORKSPACES } from "@/data/demo";
 import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -19,15 +20,26 @@ const Info = ({ icon: Icon, label, value }) => (
 );
 
 export default function Profile() {
-  const { state, set, toggleTheme, resetDemo, emptyDemo } = useStore();
+  const { state, set, toggleTheme, resetDemo, emptyDemo, setPhysicianStatus, log } = useStore();
+  const PHYSICIAN = usePhysician();
+  const fileRef = useRef(null);
+  const setStatus = (k) => (state.profile ? setPhysicianStatus("me", k) : set({ verification: k }));
+  const reupload = (files) => {
+    const docs = [...files].map((f) => ({ name: f.name, size: f.size }));
+    if (!docs.length) return;
+    if (state.profile) set((s) => ({ profile: { ...s.profile, docs: [...s.profile.docs, ...docs] }, physicians: s.physicians.map((p) => (p.id === "me" ? { ...p, doc: docs.map((d) => d.name).join(", "), submitted: new Date().toISOString() } : p)) }));
+    setStatus("İnceleniyor");
+    log(`${PHYSICIAN.name} belgelerini yeniden yükledi`);
+    toast.success("Belgeler yeniden incelemeye gönderildi");
+  };
   const ws = WORKSPACES.find((w) => w.id === state.workspace);
   const current = STATES.find((s) => s.k === state.verification);
   return (
-    <div className="space-y-8" data-testid="profile-page">
+    <div className="space-y-10" data-testid="profile-page">
       <PageHeader eyebrow="Hesap" title="Profil" />
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_360px]">
         <div className="space-y-6 min-w-0">
-          <Panel className="p-5 sm:p-6">
+          <Panel className="p-6 sm:p-8">
             <div className="flex items-center gap-4">
               <div className="grid h-14 w-14 place-items-center rounded-2xl bg-navy font-display text-lg font-bold text-white">{PHYSICIAN.initials}</div>
               <div className="min-w-0 flex-1"><div className="font-display text-xl font-bold" data-testid="profile-name">{PHYSICIAN.name}</div><div className="text-[13px] text-muted-foreground">{PHYSICIAN.title}</div></div>
@@ -41,19 +53,41 @@ export default function Profile() {
             </div>
           </Panel>
 
-          <Panel className="p-5 sm:p-6" data-testid="profile-verification-card">
-            <div className="eyebrow mb-4">Hekim doğrulama durumu</div>
-            <div className="grid gap-2 sm:grid-cols-3">
-              {STATES.map((s) => (
-                <button key={s.k} onClick={() => { set({ verification: s.k }); toast.message(`Demo: durum “${s.k}” olarak ayarlandı`); }} data-testid={`verification-demo-${s.k}`}
-                  className={cn("rounded-xl border p-3 text-left transition-colors", state.verification === s.k ? "border-foreground/30 bg-surface" : "hover:bg-surface/60")}>
-                  <s.icon className={cn("h-4 w-4", s.k === "Doğrulandı" ? "text-emerald-600" : s.k === "İnceleniyor" ? "text-amber-600" : "text-rose-600")} />
-                  <div className="mt-2 text-[13px] font-semibold">{s.k}</div>
-                </button>
+          <Panel className="p-6 sm:p-8" data-testid="profile-verification-card">
+            <div className="eyebrow mb-6">Hekim doğrulama süreci</div>
+            <ol className="relative space-y-6 border-l pl-6" data-testid="verification-timeline">
+              {[
+                { t: "Başvuru alındı", d: state.profile ? "Hesap ve mesleki bilgiler kaydedildi." : "Demo hesabı oluşturuldu.", done: true },
+                { t: "Belge incelemesi", d: state.verification === "İnceleniyor" ? "Yönetici belgelerinizi inceliyor." : "İnceleme tamamlandı.", done: state.verification !== "İnceleniyor", current: state.verification === "İnceleniyor" },
+                { t: state.verification === "Reddedildi" ? "Reddedildi" : "Doğrulandı", d: current.text, done: state.verification === "Doğrulandı", fail: state.verification === "Reddedildi" },
+              ].map((s, i) => (
+                <li key={i} className="relative">
+                  <span className={cn("absolute -left-[33px] top-0.5 grid h-4 w-4 place-items-center rounded-full border-2 bg-card", s.fail ? "border-rose-500" : s.done ? "border-brand bg-brand" : s.current ? "border-amber-500" : "border-border")}>{s.done && !s.fail && <Check className="h-2.5 w-2.5 text-white" />}</span>
+                  <div className={cn("text-[14px] font-semibold", s.fail && "text-rose-600")}>{s.t}</div>
+                  <p className="mt-1 text-[13px] leading-relaxed text-muted-foreground" data-testid={i === 2 ? "verification-description" : undefined}>{s.d}</p>
+                </li>
               ))}
+            </ol>
+            {state.profile?.docs?.length > 0 && (
+              <div className="mt-8"><div className="eyebrow mb-2">Yüklenen belgeler</div><div className="space-y-1.5">{state.profile.docs.map((d, i) => <div key={i} className="flex items-center gap-2 rounded-lg bg-surface px-3 py-2 text-[13px]" data-testid="profile-doc-item"><FileText className="h-3.5 w-3.5 text-muted-foreground" />{d.name}</div>)}</div></div>
+            )}
+            {state.verification === "Reddedildi" && (
+              <div className="mt-6">
+                <Button onClick={() => fileRef.current?.click()} data-testid="profile-reupload-button" className="bg-navy text-white hover:bg-brand dark:bg-brand"><UploadCloud className="mr-2 h-4 w-4" />Belgeleri yeniden yükle</Button>
+                <input ref={fileRef} type="file" multiple accept=".pdf,.jpg,.jpeg,.png" className="hidden" data-testid="profile-reupload-input" onChange={(e) => { reupload(e.target.files); e.target.value = ""; }} />
+              </div>
+            )}
+            <div className="mt-8 border-t pt-5">
+              <div className="mb-2 text-[11.5px] text-muted-foreground">Prototip: durumu elle değiştirerek arayüzün tepkisini inceleyin.</div>
+              <div className="flex flex-wrap gap-2">
+                {STATES.map((s) => (
+                  <button key={s.k} onClick={() => { setStatus(s.k); toast.message(`Demo: durum “${s.k}” olarak ayarlandı`); }} data-testid={`verification-demo-${s.k}`}
+                    className={cn("inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-[12.5px] transition-colors", state.verification === s.k ? "border-foreground/30 bg-surface font-medium" : "text-muted-foreground hover:bg-surface/60")}>
+                    <s.icon className={cn("h-3.5 w-3.5", s.k === "Doğrulandı" ? "text-emerald-600" : s.k === "İnceleniyor" ? "text-amber-600" : "text-rose-600")} />{s.k}
+                  </button>
+                ))}
+              </div>
             </div>
-            <p className="mt-4 text-[13px] leading-relaxed text-muted-foreground" data-testid="verification-description">{current.text}</p>
-            <p className="mt-2 text-[11px] text-muted-foreground">Prototip: durumlar arasında geçiş yaparak arayüzün nasıl değiştiğini inceleyebilirsiniz.</p>
           </Panel>
         </div>
 

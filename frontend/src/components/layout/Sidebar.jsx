@@ -1,8 +1,8 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import { Home, Microscope, BookOpenText, Pill, History, Package, UserRound, ShieldCheck, ChevronsUpDown, Check, PanelLeftClose, PanelLeftOpen, Moon, Sun, Building2, User, LogOut } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { useStore, FREE_QUOTA } from "@/lib/store";
-import { WORKSPACES, PHYSICIAN } from "@/data/demo";
+import { useStore, usePhysician, FREE_QUOTA } from "@/lib/store";
+import { WORKSPACES } from "@/data/demo";
 import { cn } from "@/lib/utils";
 
 const MAIN_NAV = [
@@ -31,7 +31,7 @@ export const Logo = ({ collapsed }) => (
 const NavItem = ({ item, collapsed }) => (
   <NavLink to={item.to} end={item.end} data-testid={`nav-${item.id}`} title={collapsed ? item.label : undefined}
     className={({ isActive }) => cn(
-      "group relative flex h-9 items-center gap-3 rounded-lg px-2.5 text-[13.5px] font-medium transition-colors",
+      "group relative flex h-10 items-center gap-3 rounded-lg px-2.5 text-[13.5px] font-medium transition-colors",
       isActive ? "bg-card text-foreground shadow-sm ring-1 ring-border" : "text-muted-foreground hover:bg-accent hover:text-foreground",
       collapsed && "justify-center px-0")}>
     {({ isActive }) => (<>
@@ -44,8 +44,10 @@ const NavItem = ({ item, collapsed }) => (
 
 const WorkspaceSwitcher = ({ collapsed }) => {
   const { state, set, log } = useStore();
+  const me = usePhysician();
   const navigate = useNavigate();
   const ws = WORKSPACES.find((w) => w.id === state.workspace);
+  const sub = (w) => (w.id === "personal" ? me.name : w.sub);
   const choose = (w) => {
     set({ workspace: w.id });
     log(`Çalışma alanı değiştirildi: ${w.name}`);
@@ -61,7 +63,7 @@ const WorkspaceSwitcher = ({ collapsed }) => {
           {!collapsed && (<>
             <div className="min-w-0 flex-1">
               <div className="truncate text-[13px] font-semibold" data-testid="current-workspace-name">{ws.name}</div>
-              <div className="truncate text-[11px] text-muted-foreground">{ws.sub}</div>
+              <div className="truncate text-[11px] text-muted-foreground">{sub(ws)}</div>
             </div>
             <ChevronsUpDown className="h-3.5 w-3.5 text-muted-foreground" />
           </>)}
@@ -69,10 +71,10 @@ const WorkspaceSwitcher = ({ collapsed }) => {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="start" className="w-64">
         <DropdownMenuLabel className="eyebrow">Hekim çalışma alanları</DropdownMenuLabel>
-        {WORKSPACES.filter((w) => w.type === "hekim").map((w) => <WsItem key={w.id} w={w} active={w.id === state.workspace} onSelect={() => choose(w)} Icon={Icon(w)} />)}
+        {WORKSPACES.filter((w) => w.type === "hekim").map((w) => <WsItem key={w.id} w={{ ...w, sub: sub(w) }} active={w.id === state.workspace} onSelect={() => choose(w)} Icon={Icon(w)} />)}
         <DropdownMenuSeparator />
         <DropdownMenuLabel className="eyebrow">Yönetici</DropdownMenuLabel>
-        {WORKSPACES.filter((w) => w.type === "admin").map((w) => <WsItem key={w.id} w={w} active={w.id === state.workspace} onSelect={() => choose(w)} Icon={Icon(w)} />)}
+        {WORKSPACES.filter((w) => w.type === "admin").map((w) => <WsItem key={w.id} w={{ ...w, sub: sub(w) }} active={w.id === state.workspace} onSelect={() => choose(w)} Icon={Icon(w)} />)}
       </DropdownMenuContent>
     </DropdownMenu>
   );
@@ -100,6 +102,7 @@ const QuotaMeter = () => {
 
 export const Sidebar = ({ collapsed, mobile }) => {
   const { state, set, toggleTheme } = useStore();
+  const PHYSICIAN = usePhysician();
   const navigate = useNavigate();
   const isAdmin = state.workspace === "admin";
   return (

@@ -46,7 +46,7 @@ export default function Medications() {
   const recent = state.recentMeds.map((id) => PRODUCTS.find((p) => p.id === id)).filter(Boolean);
 
   return (
-    <div className="space-y-8" data-testid="medications-page">
+    <div className="space-y-10" data-testid="medications-page">
       <PageHeader eyebrow="İlaç Kataloğu" title="İlaçlar" description="Ürün adı veya etken maddeye göre arayın. Klinik içerik yalnızca doğrulanmış kaynak mevcutsa gösterilir."
         actions={<Link to="/ilaclar/guvenlik" data-testid="open-safety-check" className="inline-flex h-9 items-center gap-2 rounded-lg border border-indigo-300 bg-indigo-50 px-3.5 text-sm font-medium text-indigo-800 transition-colors hover:bg-indigo-100 dark:border-indigo-800 dark:bg-indigo-950/50 dark:text-indigo-200"><ShieldAlert className="h-4 w-4" />İlaç Güvenlik Kontrolü</Link>} />
 

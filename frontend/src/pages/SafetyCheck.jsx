@@ -44,7 +44,7 @@ export default function SafetyCheck() {
   };
 
   return (
-    <div className="space-y-8" data-testid="safety-check-page">
+    <div className="space-y-10" data-testid="safety-check-page">
       <PageHeader eyebrow="İlaçlar · Ayrı iş akışı" title="İlaç Güvenlik Kontrolü" description="Seçilen ürünlerin etken maddelerini kayıtlı alerjilerle ve birbirleriyle ad düzeyinde karşılaştırır. Klinik etkileşim veritabanı bu prototipte bağlı değildir." />
       {linkedCase && <div className="flex items-center gap-2 rounded-lg border bg-surface px-4 py-2.5 text-[13px]" data-testid="safety-linked-case">Bağlı vaka: <Link to={`/arastirma/${linkedCase.id}`} className="font-medium underline-offset-2 hover:underline">{caseTitle(linkedCase)}</Link><span className="text-muted-foreground">· alerjiler otomatik aktarıldı</span></div>}
 
