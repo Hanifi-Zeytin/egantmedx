@@ -1,0 +1,50 @@
+{
+  "summary": "Frontend-only refactor regression pass. All 7 scoped flows verified on preview URL. Zero console errors / React key warnings across tested pages.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": [],
+  "action_items": [],
+  "critical_code_review_comments": [
+    "NewResearch.jsx correctly uses `key={draftId || 'new'}` on child ResearchForm so React remounts the component on draft<->new transitions, replacing the previous effect-based reset. Lazy initial state (useState init callback) seeds form from draft/soru exactly once per mount. Clean refactor.",
+    "MedicationDetail.jsx useEffect deps are now [pid, visitMed] (pid memoized via p?.id) and store `visitMed` is stable from memoized actions in store.js - no infinite render loop observed.",
+    "Composer.jsx: QuickActionBar extracted, hideDrugLink prop correctly suppresses composer-drug-lookup-link in LiveTour (verified visually - no drug link rendered inside composer during tour).",
+    "Sidebar split into SidebarNav / UserChip / SidebarActions - admin workspace correctly renders only nav-admin + yetki note (nav-arastirma absent, confirmed)."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "N/A", "frontend": "100%"},
+  "test_credentials": "none - demo login via /tanitim landing-login-button -> login-as-physician / login-as-admin",
+  "seed_data_creation": "",
+  "retest_needed": false,
+  "should_main_agent_self_test": false,
+  "context_for_next_testing_agent": "Composer textarea testid is `composer-input` (NOT composer-textarea). Profile reupload-input only appears after admin rejection (status=reddedildi); default verified physician does not show it. All refactor regression flows confirmed pass. localStorage key: medassistix-prototype-v1.",
+  "test_results": {
+    "newresearch_empty_on_bare_arastirma": "PASS",
+    "newresearch_prefill_via_soru_query": "PASS",
+    "newresearch_prefill_via_taslak_query": "PASS",
+    "newresearch_reset_when_navigating_draft_to_new": "PASS (key-based remount works)",
+    "newresearch_start_validation_errors_shown": "PASS (error-complaint rendered on empty submit)",
+    "newresearch_save_draft_navigates_to_history": "PASS (/gecmis?durum=taslak)",
+    "newresearch_save_draft_persists_draft": "PASS (draft appears in side-case list)",
+    "dashboard_quick_question_prefills_newresearch": "PASS (Enter navigates to /arastirma?soru=...)",
+    "medication_detail_p4_loads_and_adds_to_recent": "PASS (dashboard-recent-meds populated)",
+    "medication_detail_no_infinite_loop": "PASS (0 console errors across navigations)",
+    "profile_reset_demo_button_works": "PASS",
+    "profile_empty_demo_button_present_and_works": "PASS",
+    "profile_verification_timeline_renders": "PASS",
+    "composer_quick_action_buttons_present_c1": "PASS (4 quick-action-* buttons)",
+    "composer_drug_lookup_link_present_c1": "PASS",
+    "composer_enter_sends_message_c1": "PASS (messages increased 3->6: user+assistant)",
+    "landing_live_tour_composer_enter_send": "PASS (tour messages rendered)",
+    "landing_live_tour_hides_drug_link_in_composer": "PASS (verified in code + screenshot)",
+    "sidebar_all_items_physician_workspace": "PASS (sidebar-user, sidebar-theme-toggle, sidebar-logout-button, sidebar-collapse-toggle)",
+    "sidebar_admin_workspace_only_nav_admin": "PASS (nav-arastirma absent)",
+    "evidence_filters_source_lang_type_present": "PASS (counts: 3 / 2 / 3)",
+    "evidence_history_item_rerun_search": "PASS (clicking history re-fills search input)",
+    "evidence_history_clear_present": "PASS",
+    "console_errors_or_key_warnings": "NONE across all tested pages"
+  }
+}
