@@ -6,7 +6,7 @@ const KEY = "medassistix-prototype-v1";
 export const FREE_QUOTA = 5;
 
 const initial = () => ({
-  theme: "light", workspace: "personal", collapsed: false,
+  theme: "light", workspace: "personal", collapsed: false, entered: false,
   cases: seedCases(), evidenceHistory: ["kronik öksürük", "hipertansiyon"], recentMeds: ["p6", "p10"],
   verification: "Doğrulandı", queriesUsed: 1, physicians: seedPhysicians(),
   audit: [{ id: "l0", text: "Demo çalışma alanı oluşturuldu", at: new Date().toISOString() }],
@@ -47,8 +47,8 @@ export const StoreProvider = ({ children }) => {
     clearEvidenceHistory: () => set({ evidenceHistory: [] }),
     visitMed: (id) => set((s) => ({ recentMeds: [id, ...s.recentMeds.filter((x) => x !== id)].slice(0, 6) })),
     log: (text) => set((s) => ({ audit: [{ id: uid(), text, at: new Date().toISOString() }, ...s.audit].slice(0, 30) })),
-    resetDemo: () => setState({ ...initial(), theme: state.theme }),
-    emptyDemo: () => setState({ ...initial(), theme: state.theme, cases: [], evidenceHistory: [], recentMeds: [], queriesUsed: 0 }),
+    resetDemo: () => setState({ ...initial(), theme: state.theme, entered: true }),
+    emptyDemo: () => setState({ ...initial(), theme: state.theme, entered: true, cases: [], evidenceHistory: [], recentMeds: [], queriesUsed: 0 }),
   }), [set, state.theme]);
 
   return createElement(Ctx.Provider, { value: { state, ...actions } }, children);

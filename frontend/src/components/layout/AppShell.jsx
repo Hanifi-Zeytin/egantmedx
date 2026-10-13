@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Outlet, useLocation } from "react-router-dom";
+import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { Topbar } from "@/components/layout/Topbar";
@@ -13,6 +13,8 @@ export default function AppShell() {
   const fullBleed = /^\/arastirma\/.+/.test(pathname);
 
   useEffect(() => setMobileOpen(false), [pathname]);
+
+  if (!state.entered) return <Navigate to="/tanitim" replace />;
 
   return (
     <div className="flex h-screen overflow-hidden bg-background">

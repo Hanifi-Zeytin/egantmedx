@@ -1,5 +1,5 @@
 import { NavLink, useNavigate } from "react-router-dom";
-import { Home, Microscope, BookOpenText, Pill, History, Package, UserRound, ShieldCheck, ChevronsUpDown, Check, PanelLeftClose, PanelLeftOpen, Moon, Sun, Building2, User } from "lucide-react";
+import { Home, Microscope, BookOpenText, Pill, History, Package, UserRound, ShieldCheck, ChevronsUpDown, Check, PanelLeftClose, PanelLeftOpen, Moon, Sun, Building2, User, LogOut } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useStore, FREE_QUOTA } from "@/lib/store";
 import { WORKSPACES, PHYSICIAN } from "@/data/demo";
@@ -100,6 +100,7 @@ const QuotaMeter = () => {
 
 export const Sidebar = ({ collapsed, mobile }) => {
   const { state, set, toggleTheme } = useStore();
+  const navigate = useNavigate();
   const isAdmin = state.workspace === "admin";
   return (
     <div className="flex h-full w-full flex-col gap-4 p-3" data-testid="sidebar">
@@ -131,6 +132,7 @@ export const Sidebar = ({ collapsed, mobile }) => {
           )}
           <div className={cn("flex gap-1", collapsed && "flex-col")}>
             <IconBtn testId="sidebar-theme-toggle" label={state.theme === "dark" ? "Açık tema" : "Koyu tema"} onClick={toggleTheme}>{state.theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}</IconBtn>
+            <IconBtn testId="sidebar-logout-button" label="Çıkış yap" onClick={() => { set({ entered: false }); navigate("/tanitim"); }}><LogOut className="h-4 w-4" /></IconBtn>
             {!mobile && <IconBtn testId="sidebar-collapse-toggle" label={collapsed ? "Genişlet" : "Daralt"} onClick={() => set({ collapsed: !collapsed })}>{collapsed ? <PanelLeftOpen className="h-4 w-4" /> : <PanelLeftClose className="h-4 w-4" />}</IconBtn>}
           </div>
         </div>
