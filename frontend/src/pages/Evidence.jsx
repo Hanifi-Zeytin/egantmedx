@@ -45,6 +45,19 @@ const ExternalSearch = ({ q }) => (
   </div>
 );
 
+const FilterSidebar = ({ filters: { src, setSrc, lang, setLang, type, setType }, history, onRun, onClear }) => (
+  <aside className="space-y-5">
+    <div><div className="eyebrow mb-2">Kaynak</div><div className="flex flex-wrap gap-1.5">{SOURCES.map((s) => <Chip key={s} active={src.includes(s)} onClick={() => setSrc(toggle(src, s))} testId={`filter-source-${s.replace(" ", "-")}`}>{s}</Chip>)}</div></div>
+    <div><div className="eyebrow mb-2">Dil</div><div className="flex flex-wrap gap-1.5">{LANGS.map(([k, l]) => <Chip key={k} active={lang.includes(k)} onClick={() => setLang(toggle(lang, k))} testId={`filter-lang-${k}`}>{l}</Chip>)}</div></div>
+    <div><div className="eyebrow mb-2">Yayın türü</div><div className="flex flex-wrap gap-1.5">{TYPES.map((t) => <Chip key={t} active={type.includes(t)} onClick={() => setType(toggle(type, t))} testId={`filter-type-${t.split(" ")[0]}`}>{t}</Chip>)}</div></div>
+    <Panel className="p-3">
+      <div className="mb-2 flex items-center justify-between"><span className="eyebrow flex items-center gap-1.5"><HistoryIcon className="h-3 w-3" />Arama geçmişi</span>{history.length > 0 && <button onClick={onClear} className="text-[11px] text-muted-foreground hover:text-foreground" data-testid="evidence-history-clear">Temizle</button>}</div>
+      {history.length ? history.map((h) => <button key={h} onClick={() => onRun(h)} data-testid="evidence-history-item" className="block w-full truncate rounded px-2 py-1.5 text-left text-[13px] hover:bg-surface">{h}</button>) : <p className="text-[12px] text-muted-foreground">Henüz arama yok.</p>}
+    </Panel>
+    <div className="flex gap-2 rounded-lg border border-dashed p-3 text-[11.5px] leading-relaxed text-muted-foreground"><Info className="mt-0.5 h-3.5 w-3.5 shrink-0" />Bu modül kanıt keşfi içindir; yapay zekâ yorumu içermez. Yorumlar Klinik Araştırma'da ayrıca işaretlenir.</div>
+  </aside>
+);
+
 export default function Evidence() {
   const [params, setParams] = useSearchParams();
   const { state, addEvidenceSearch, clearEvidenceHistory } = useStore();
@@ -84,16 +97,7 @@ export default function Evidence() {
       </div>
 
       <div className="grid gap-6 lg:grid-cols-[240px_minmax(0,1fr)]">
-        <aside className="space-y-5">
-          <div><div className="eyebrow mb-2">Kaynak</div><div className="flex flex-wrap gap-1.5">{SOURCES.map((s) => <Chip key={s} active={src.includes(s)} onClick={() => setSrc(toggle(src, s))} testId={`filter-source-${s.replace(" ", "-")}`}>{s}</Chip>)}</div></div>
-          <div><div className="eyebrow mb-2">Dil</div><div className="flex flex-wrap gap-1.5">{LANGS.map(([k, l]) => <Chip key={k} active={lang.includes(k)} onClick={() => setLang(toggle(lang, k))} testId={`filter-lang-${k}`}>{l}</Chip>)}</div></div>
-          <div><div className="eyebrow mb-2">Yayın türü</div><div className="flex flex-wrap gap-1.5">{TYPES.map((t) => <Chip key={t} active={type.includes(t)} onClick={() => setType(toggle(type, t))} testId={`filter-type-${t.split(" ")[0]}`}>{t}</Chip>)}</div></div>
-          <Panel className="p-3">
-            <div className="mb-2 flex items-center justify-between"><span className="eyebrow flex items-center gap-1.5"><HistoryIcon className="h-3 w-3" />Arama geçmişi</span>{state.evidenceHistory.length > 0 && <button onClick={clearEvidenceHistory} className="text-[11px] text-muted-foreground hover:text-foreground" data-testid="evidence-history-clear">Temizle</button>}</div>
-            {state.evidenceHistory.length ? state.evidenceHistory.map((h) => <button key={h} onClick={() => run(h)} data-testid="evidence-history-item" className="block w-full truncate rounded px-2 py-1.5 text-left text-[13px] hover:bg-surface">{h}</button>) : <p className="text-[12px] text-muted-foreground">Henüz arama yok.</p>}
-          </Panel>
-          <div className="flex gap-2 rounded-lg border border-dashed p-3 text-[11.5px] leading-relaxed text-muted-foreground"><Info className="mt-0.5 h-3.5 w-3.5 shrink-0" />Bu modül kanıt keşfi içindir; yapay zekâ yorumu içermez. Yorumlar Klinik Araştırma'da ayrıca işaretlenir.</div>
-        </aside>
+        <FilterSidebar filters={{ src, setSrc, lang, setLang, type, setType }} history={state.evidenceHistory} onRun={run} onClear={clearEvidenceHistory} />
 
         <div className="min-w-0 space-y-4">
           {!q ? (

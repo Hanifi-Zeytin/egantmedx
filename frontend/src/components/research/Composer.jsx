@@ -6,6 +6,25 @@ import { cn } from "@/lib/utils";
 
 const ICONS = { tedavi: Stethoscope, ilac: Pill, ayirici: GitBranch, tetkik: TestTubes };
 
+const QuickActionBar = ({ onAction, disabled, hideDrugLink }) => (
+  <div className="mb-2.5 flex flex-wrap items-center gap-1.5">
+    {QUICK_ACTIONS.map((a) => {
+      const I = ICONS[a.kind];
+      return (
+        <button key={a.kind} data-testid={`quick-action-${a.kind}`} disabled={disabled} onClick={() => onAction(a)}
+          className="inline-flex h-8 items-center gap-1.5 rounded-full border bg-card px-3 text-[12.5px] font-medium text-foreground/80 transition-[background-color,border-color,transform] hover:-translate-y-px hover:border-brand/50 hover:bg-brand-soft hover:text-brand-fg disabled:pointer-events-none disabled:opacity-50">
+          <I className="h-3.5 w-3.5" strokeWidth={1.9} />{a.label}
+        </button>
+      );
+    })}
+    {!hideDrugLink && <span className="mx-1 hidden h-5 w-px bg-border sm:block" />}
+    {!hideDrugLink && <Link to="/ilaclar" data-testid="composer-drug-lookup-link" title="İlaç veritabanında doğrudan arama yapın"
+      className="inline-flex h-8 items-center gap-1.5 rounded-full border border-dashed border-indigo-300 px-3 text-[12.5px] font-medium text-indigo-700 transition-colors hover:bg-indigo-50 dark:border-indigo-800 dark:text-indigo-300 dark:hover:bg-indigo-950/40">
+      <Search className="h-3.5 w-3.5" />İlaç Sorgula
+    </Link>}
+  </div>
+);
+
 export const Composer = ({ onSend, busy, disabledReason, autoFocus, hideDrugLink }) => {
   const [text, setText] = useState("");
   const ref = useRef(null);
@@ -34,22 +53,7 @@ export const Composer = ({ onSend, busy, disabledReason, autoFocus, hideDrugLink
 
   return (
     <div className="w-full" data-testid="clinical-composer">
-      <div className="mb-2.5 flex flex-wrap items-center gap-1.5">
-        {QUICK_ACTIONS.map((a) => {
-          const I = ICONS[a.kind];
-          return (
-            <button key={a.kind} data-testid={`quick-action-${a.kind}`} disabled={busy || disabled} onClick={() => submit(a.kind, text.trim() ? `${a.label}: ${text.trim()}` : a.prompt)}
-              className="inline-flex h-8 items-center gap-1.5 rounded-full border bg-card px-3 text-[12.5px] font-medium text-foreground/80 transition-[background-color,border-color,transform] hover:-translate-y-px hover:border-brand/50 hover:bg-brand-soft hover:text-brand-fg disabled:pointer-events-none disabled:opacity-50">
-              <I className="h-3.5 w-3.5" strokeWidth={1.9} />{a.label}
-            </button>
-          );
-        })}
-        {!hideDrugLink && <span className="mx-1 hidden h-5 w-px bg-border sm:block" />}
-        {!hideDrugLink && <Link to="/ilaclar" data-testid="composer-drug-lookup-link" title="İlaç veritabanında doğrudan arama yapın"
-          className="inline-flex h-8 items-center gap-1.5 rounded-full border border-dashed border-indigo-300 px-3 text-[12.5px] font-medium text-indigo-700 transition-colors hover:bg-indigo-50 dark:border-indigo-800 dark:text-indigo-300 dark:hover:bg-indigo-950/40">
-          <Search className="h-3.5 w-3.5" />İlaç Sorgula
-        </Link>}
-      </div>
+      <QuickActionBar onAction={(a) => submit(a.kind, text.trim() ? `${a.label}: ${text.trim()}` : a.prompt)} disabled={busy || disabled} hideDrugLink={hideDrugLink} />
       <div className={cn("relative rounded-2xl border bg-card shadow-[0_1px_2px_rgba(15,23,42,.04),0_8px_24px_-12px_rgba(15,23,42,.12)] transition-[border-color,box-shadow] focus-within:border-brand/60 focus-within:shadow-[0_0_0_4px_hsl(var(--brand)/0.12)]", disabled && "bg-surface")}>
         <textarea ref={ref} rows={1} value={text} onChange={(e) => setText(e.target.value)} onKeyDown={onKey} disabled={disabled}
           data-testid="composer-input" aria-label="Klinik soru"

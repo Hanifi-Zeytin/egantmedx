@@ -17,7 +17,8 @@ export default function MedicationDetail() {
   const { id } = useParams();
   const { visitMed } = useStore();
   const p = PRODUCTS.find((x) => x.id === id);
-  useEffect(() => { if (p) visitMed(p.id); }, [p?.id]); // eslint-disable-line react-hooks/exhaustive-deps
+  const pid = p?.id;
+  useEffect(() => { if (pid) visitMed(pid); }, [pid, visitMed]);
 
   if (!p) return <div className="py-20 text-center" data-testid="med-not-found"><h2 className="text-lg font-bold">Ürün bulunamadı</h2><Link to="/ilaclar" className="mt-3 inline-block text-sm underline">İlaçlara dön</Link></div>;
   const siblings = PRODUCTS.filter((x) => x.ingredient === p.ingredient && x.id !== p.id);

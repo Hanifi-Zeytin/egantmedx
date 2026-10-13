@@ -100,44 +100,58 @@ const QuotaMeter = () => {
   );
 };
 
-export const Sidebar = ({ collapsed, mobile }) => {
+const SidebarNav = ({ collapsed, isAdmin }) => (
+  <nav className="flex flex-col gap-0.5 pl-0">
+    {isAdmin ? (<>
+      {!collapsed && <div className="eyebrow px-2.5 pb-1.5 pt-1">Yönetim</div>}
+      {ADMIN_NAV.map((i) => <NavItem key={i.id} item={i} collapsed={collapsed} />)}
+      {!collapsed && <p className="mt-3 rounded-lg border border-dashed border-amber-300/70 bg-amber-50/60 p-2.5 text-[11.5px] leading-relaxed text-amber-900 dark:border-amber-900 dark:bg-amber-950/30 dark:text-amber-300">Yönetici bağlamındasınız. Klinik modüller için bir hekim çalışma alanına geçin.</p>}
+    </>) : (<>
+      {!collapsed && <div className="eyebrow px-2.5 pb-1.5 pt-1">Çalışma</div>}
+      {MAIN_NAV.map((i) => <NavItem key={i.id} item={i} collapsed={collapsed} />)}
+      {collapsed ? <div className="my-2 h-px bg-border" /> : <div className="eyebrow px-2.5 pb-1.5 pt-4">Hesap</div>}
+      {ACCOUNT_NAV.map((i) => <NavItem key={i.id} item={i} collapsed={collapsed} />)}
+    </>)}
+  </nav>
+);
+
+const UserChip = ({ isAdmin }) => {
+  const me = usePhysician();
+  const u = isAdmin ? { initials: "CÖ", name: "Can Öztürk", title: "Platform yöneticisi" } : me;
+  return (
+    <NavLink to="/profil" className="flex min-w-0 items-center gap-2" data-testid="sidebar-user">
+      <div className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-navy font-display text-[11px] font-bold text-white">{u.initials}</div>
+      <div className="min-w-0"><div className="truncate text-[12.5px] font-semibold">{u.name}</div><div className="truncate text-[11px] text-muted-foreground">{u.title}</div></div>
+    </NavLink>
+  );
+};
+
+const SidebarActions = ({ collapsed, mobile }) => {
   const { state, set, toggleTheme } = useStore();
-  const PHYSICIAN = usePhysician();
   const navigate = useNavigate();
+  const dark = state.theme === "dark";
+  return (
+    <div className={cn("flex gap-1", collapsed && "flex-col")}>
+      <IconBtn testId="sidebar-theme-toggle" label={dark ? "Açık tema" : "Koyu tema"} onClick={toggleTheme}>{dark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}</IconBtn>
+      <IconBtn testId="sidebar-logout-button" label="Çıkış yap" onClick={() => { set({ entered: false }); navigate("/tanitim"); }}><LogOut className="h-4 w-4" /></IconBtn>
+      {!mobile && <IconBtn testId="sidebar-collapse-toggle" label={collapsed ? "Genişlet" : "Daralt"} onClick={() => set({ collapsed: !collapsed })}>{collapsed ? <PanelLeftOpen className="h-4 w-4" /> : <PanelLeftClose className="h-4 w-4" />}</IconBtn>}
+    </div>
+  );
+};
+
+export const Sidebar = ({ collapsed, mobile }) => {
+  const { state } = useStore();
   const isAdmin = state.workspace === "admin";
   return (
     <div className="flex h-full w-full flex-col gap-4 p-3" data-testid="sidebar">
-      <div className={cn("flex h-9 items-center px-1", collapsed ? "justify-center" : "justify-between")}>
-        <Logo collapsed={collapsed} />
-      </div>
+      <div className={cn("flex h-9 items-center px-1", collapsed ? "justify-center" : "justify-between")}><Logo collapsed={collapsed} /></div>
       <WorkspaceSwitcher collapsed={collapsed} />
-      <nav className="flex flex-col gap-0.5 pl-0">
-        {isAdmin ? (<>
-          {!collapsed && <div className="eyebrow px-2.5 pb-1.5 pt-1">Yönetim</div>}
-          {ADMIN_NAV.map((i) => <NavItem key={i.id} item={i} collapsed={collapsed} />)}
-          {!collapsed && <p className="mt-3 rounded-lg border border-dashed border-amber-300/70 bg-amber-50/60 p-2.5 text-[11.5px] leading-relaxed text-amber-900 dark:border-amber-900 dark:bg-amber-950/30 dark:text-amber-300">Yönetici bağlamındasınız. Klinik modüller için bir hekim çalışma alanına geçin.</p>}
-        </>) : (<>
-          {!collapsed && <div className="eyebrow px-2.5 pb-1.5 pt-1">Çalışma</div>}
-          {MAIN_NAV.map((i) => <NavItem key={i.id} item={i} collapsed={collapsed} />)}
-          {!collapsed && <div className="eyebrow px-2.5 pb-1.5 pt-4">Hesap</div>}
-          {collapsed && <div className="my-2 h-px bg-border" />}
-          {ACCOUNT_NAV.map((i) => <NavItem key={i.id} item={i} collapsed={collapsed} />)}
-        </>)}
-      </nav>
+      <SidebarNav collapsed={collapsed} isAdmin={isAdmin} />
       <div className="mt-auto flex flex-col gap-2">
         {!collapsed && !isAdmin && <QuotaMeter />}
         <div className={cn("flex items-center gap-2 rounded-lg p-1.5", collapsed ? "flex-col" : "justify-between")}>
-          {!collapsed && (
-            <NavLink to="/profil" className="flex min-w-0 items-center gap-2" data-testid="sidebar-user">
-              <div className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-navy font-display text-[11px] font-bold text-white">{isAdmin ? "CÖ" : PHYSICIAN.initials}</div>
-              <div className="min-w-0"><div className="truncate text-[12.5px] font-semibold">{isAdmin ? "Can Öztürk" : PHYSICIAN.name}</div><div className="truncate text-[11px] text-muted-foreground">{isAdmin ? "Platform yöneticisi" : PHYSICIAN.title}</div></div>
-            </NavLink>
-          )}
-          <div className={cn("flex gap-1", collapsed && "flex-col")}>
-            <IconBtn testId="sidebar-theme-toggle" label={state.theme === "dark" ? "Açık tema" : "Koyu tema"} onClick={toggleTheme}>{state.theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}</IconBtn>
-            <IconBtn testId="sidebar-logout-button" label="Çıkış yap" onClick={() => { set({ entered: false }); navigate("/tanitim"); }}><LogOut className="h-4 w-4" /></IconBtn>
-            {!mobile && <IconBtn testId="sidebar-collapse-toggle" label={collapsed ? "Genişlet" : "Daralt"} onClick={() => set({ collapsed: !collapsed })}>{collapsed ? <PanelLeftOpen className="h-4 w-4" /> : <PanelLeftClose className="h-4 w-4" />}</IconBtn>}
-          </div>
+          {!collapsed && <UserChip isAdmin={isAdmin} />}
+          <SidebarActions collapsed={collapsed} mobile={mobile} />
         </div>
       </div>
     </div>

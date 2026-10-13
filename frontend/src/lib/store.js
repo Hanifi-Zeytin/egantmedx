@@ -69,9 +69,9 @@ export const StoreProvider = ({ children }) => {
       physicians: s.physicians.map((p) => (p.id === pid ? { ...p, status, reason: reason || undefined } : p)),
       ...(pid === "me" ? { verification: status } : {}),
     })),
-    resetDemo: () => setState({ ...initial(), theme: state.theme, entered: true }),
-    emptyDemo: () => setState({ ...initial(), theme: state.theme, entered: true, cases: [], evidenceHistory: [], recentMeds: [], queriesUsed: 0 }),
-  }), [set, state.theme]);
+    resetDemo: () => setState((s) => ({ ...initial(), theme: s.theme, entered: true })),
+    emptyDemo: () => setState((s) => ({ ...initial(), theme: s.theme, entered: true, cases: [], evidenceHistory: [], recentMeds: [], queriesUsed: 0 })),
+  }), [set]);
 
   return createElement(Ctx.Provider, { value: { state, ...actions } }, children);
 };

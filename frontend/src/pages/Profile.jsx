@@ -27,7 +27,7 @@ export default function Profile() {
   const reupload = (files) => {
     const docs = [...files].map((f) => ({ name: f.name, size: f.size }));
     if (!docs.length) return;
-    if (state.profile) set((s) => ({ profile: { ...s.profile, docs: [...s.profile.docs, ...docs] }, physicians: s.physicians.map((p) => (p.id === "me" ? { ...p, doc: docs.map((d) => d.name).join(", "), submitted: new Date().toISOString() } : p)) }));
+    if (state.profile) set((s) => ({ profile: { ...s.profile, docs: [...s.profile.docs, ...docs.filter((d) => !s.profile.docs.some((x) => x.name === d.name && x.size === d.size))] }, physicians: s.physicians.map((p) => (p.id === "me" ? { ...p, doc: docs.map((d) => d.name).join(", "), submitted: new Date().toISOString() } : p)) }));
     setStatus("İnceleniyor");
     log(`${PHYSICIAN.name} belgelerini yeniden yükledi`);
     toast.success("Belgeler yeniden incelemeye gönderildi");
@@ -61,7 +61,7 @@ export default function Profile() {
                 { t: "Belge incelemesi", d: state.verification === "İnceleniyor" ? "Yönetici belgelerinizi inceliyor." : "İnceleme tamamlandı.", done: state.verification !== "İnceleniyor", current: state.verification === "İnceleniyor" },
                 { t: state.verification === "Reddedildi" ? "Reddedildi" : "Doğrulandı", d: current.text, done: state.verification === "Doğrulandı", fail: state.verification === "Reddedildi" },
               ].map((s, i) => (
-                <li key={i} className="relative">
+                <li key={s.t} className="relative">
                   <span className={cn("absolute -left-[33px] top-0.5 grid h-4 w-4 place-items-center rounded-full border-2 bg-card", s.fail ? "border-rose-500" : s.done ? "border-brand bg-brand" : s.current ? "border-amber-500" : "border-border")}>{s.done && !s.fail && <Check className="h-2.5 w-2.5 text-white" />}</span>
                   <div className={cn("text-[14px] font-semibold", s.fail && "text-rose-600")}>{s.t}</div>
                   <p className="mt-1 text-[13px] leading-relaxed text-muted-foreground" data-testid={i === 2 ? "verification-description" : undefined}>{s.d}</p>
@@ -69,7 +69,7 @@ export default function Profile() {
               ))}
             </ol>
             {state.profile?.docs?.length > 0 && (
-              <div className="mt-8"><div className="eyebrow mb-2">Yüklenen belgeler</div><div className="space-y-1.5">{state.profile.docs.map((d, i) => <div key={i} className="flex items-center gap-2 rounded-lg bg-surface px-3 py-2 text-[13px]" data-testid="profile-doc-item"><FileText className="h-3.5 w-3.5 text-muted-foreground" />{d.name}</div>)}</div></div>
+              <div className="mt-8"><div className="eyebrow mb-2">Yüklenen belgeler</div><div className="space-y-1.5">{state.profile.docs.map((d) => <div key={`${d.name}-${d.size}`} className="flex items-center gap-2 rounded-lg bg-surface px-3 py-2 text-[13px]" data-testid="profile-doc-item"><FileText className="h-3.5 w-3.5 text-muted-foreground" />{d.name}</div>)}</div></div>
             )}
             {state.verification === "Reddedildi" && (
               <div className="mt-6">

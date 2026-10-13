@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { ShieldCheck, Save, PlayCircle, X, AlertTriangle, FileClock, ArrowRight } from "lucide-react";
 import { useStore, useWorkspaceCases, caseTitle } from "@/lib/store";
@@ -44,23 +44,24 @@ const SideList = ({ title, icon: Icon, items, testId }) => (
   </Panel>
 );
 
+const formFromDraft = (d, question) => {
+  if (!d) return { ...empty, complaint: question || "" };
+  const [n, u] = (d.duration || "").split(" ");
+  return { complaint: d.complaint, age: d.age ?? "", sex: d.sex || "", durN: n || "", durU: u || "hafta", allergies: d.allergies || [], context: d.context || "" };
+};
+
 export default function NewResearch() {
   const [params] = useSearchParams();
   const draftId = params.get("taslak");
+  return <ResearchForm key={draftId || "new"} draftId={draftId} question={params.get("soru")} />;
+}
+
+function ResearchForm({ draftId, question }) {
   const { state, upsertCase } = useStore();
   const cases = useWorkspaceCases();
   const navigate = useNavigate();
-  const [f, setF] = useState(empty);
+  const [f, setF] = useState(() => formFromDraft(draftId && state.cases.find((c) => c.id === draftId), question));
   const [errors, setErrors] = useState({});
-
-  useEffect(() => {
-    const d = draftId && state.cases.find((c) => c.id === draftId);
-    if (d) {
-      const [n, u] = (d.duration || "").split(" ");
-      setF({ complaint: d.complaint, age: d.age ?? "", sex: d.sex || "", durN: n || "", durU: u || "hafta", allergies: d.allergies || [], context: d.context || "" });
-    } else setF({ ...empty, complaint: params.get("soru") || "" });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [draftId]);
 
   const up = (k) => (v) => setF((s) => ({ ...s, [k]: v?.target ? v.target.value : v }));
   const piiWarn = PII.test(f.complaint + " " + f.context);
