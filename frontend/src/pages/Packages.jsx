@@ -26,7 +26,7 @@ export default function Packages() {
             <div key={p.id} data-testid={`plan-${p.id}`} style={{ animationDelay: `${i * 70}ms` }} className={cn("fade-up flex flex-col rounded-2xl border bg-card p-6", active && "border-brand/60 shadow-[0_0_0_4px_hsl(var(--brand)/0.08)]")}>
               <div className="flex items-center justify-between"><h3 className="font-display text-lg font-bold">{p.name}</h3>
                 <span className={cn("inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[11px] font-medium", active ? "bg-brand-soft text-brand-fg" : "border border-dashed text-muted-foreground")}>{active ? <Check className="h-3 w-3" /> : <Clock className="h-3 w-3" />}{p.tag}</span></div>
-              <div className={cn("mt-4 font-display text-3xl font-extrabold tracking-tight", !active && "text-muted-foreground")}>{p.price}</div>
+              <div className={cn("mt-4 font-display text-3xl font-semibold tracking-tight", !active && "text-muted-foreground")}>{p.price}</div>
               <p className="mt-2 text-[13px] text-muted-foreground">{p.desc}</p>
               {active && (
                 <div className="mt-4 rounded-lg bg-surface p-3" data-testid="plan-trial-usage">

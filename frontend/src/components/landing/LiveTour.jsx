@@ -36,7 +36,7 @@ const LimitCard = ({ onLogin, onCarry }) => (
     <div className="mt-2 font-display text-[15px] font-bold">Deneme sorularınız tamamlandı</div>
     <p className="mt-1 text-[12.5px] text-muted-foreground">Kendi vakalarınızla devam etmek için giriş yapın; doğrulamadan sonra 5 ücretsiz sorgu tanımlanır.</p>
     <div className="mt-4 flex flex-wrap justify-center gap-2">
-      <button onClick={onCarry} data-testid="tour-limit-carry-button" className="inline-flex h-10 items-center gap-2 rounded-lg bg-navy px-4 text-sm font-medium text-white hover:bg-brand dark:bg-brand"><FolderInput className="h-4 w-4" />Vakayı hesabıma aktar</button>
+      <button onClick={onCarry} data-testid="tour-limit-carry-button" className="inline-flex h-10 items-center gap-2 rounded-full bg-navy px-4 text-sm font-medium text-white hover:bg-brand dark:bg-brand"><FolderInput className="h-4 w-4" />Vakayı hesabıma aktar</button>
       <button onClick={onLogin} data-testid="tour-login-button" className="inline-flex h-10 items-center gap-2 rounded-lg border px-4 text-sm font-medium hover:bg-surface">Giriş yap<ArrowRight className="h-4 w-4" /></button>
     </div>
   </div>
@@ -75,7 +75,7 @@ export const LiveTour = ({ onLogin }) => {
   return (
     <section id="dene" className="mx-auto max-w-[1240px] scroll-mt-20 px-5 py-24 sm:px-8" data-testid="landing-live-tour">
       <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-        <div className="max-w-2xl"><div className="eyebrow mb-3 flex items-center gap-1.5"><PlayCircle className="h-3 w-3" />Canlı ürün turu</div><h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl">Giriş yapmadan deneyin.</h2><p className="mt-4 text-muted-foreground md:text-lg">Bir örnek vaka seçin, klinik sorunuzu yazın veya hızlı eylemlerden birini kullanın. Yanıtlar demo amaçlı simüle edilir.</p></div>
+        <div className="max-w-2xl"><div className="eyebrow mb-3 flex items-center gap-1.5"><PlayCircle className="h-3 w-3" />Canlı ürün turu</div><h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">Giriş yapmadan deneyin.</h2><p className="mt-4 text-muted-foreground md:text-lg">Bir örnek vaka seçin, klinik sorunuzu yazın veya hızlı eylemlerden birini kullanın. Yanıtlar demo amaçlı simüle edilir.</p></div>
         <span className="font-mono text-[12px] text-muted-foreground" data-testid="tour-remaining">Kalan deneme: {Math.max(left, 0)}/{LIMIT}</span>
       </div>
       <div className="mt-10 grid gap-4 lg:grid-cols-[280px_minmax(0,1fr)]">

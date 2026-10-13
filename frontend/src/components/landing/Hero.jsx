@@ -27,7 +27,7 @@ export const LandingNav = ({ onLogin, onSignup }) => {
         <div className="ml-auto flex items-center gap-1.5 sm:gap-2">
           <button onClick={toggleTheme} aria-label="Temayı değiştir" data-testid="landing-theme-toggle" className="grid h-9 w-9 place-items-center rounded-md text-muted-foreground hover:bg-accent hover:text-foreground">{state.theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}</button>
           <button onClick={onLogin} data-testid="landing-login-button" className="hidden h-9 rounded-lg px-3.5 text-sm font-medium hover:bg-accent sm:block">Giriş yap</button>
-          <button onClick={onSignup} data-testid="landing-signup-button" className="h-9 whitespace-nowrap rounded-lg bg-navy px-3 text-sm font-medium text-white transition-colors hover:bg-brand sm:px-4 dark:bg-brand"><span className="sm:hidden">Başla</span><span className="hidden sm:inline">Ücretsiz başla</span></button>
+          <button onClick={onSignup} data-testid="landing-signup-button" className="h-9 whitespace-nowrap rounded-full bg-navy px-3 text-sm font-medium text-white transition-colors hover:bg-brand sm:px-4 dark:bg-brand"><span className="sm:hidden">Başla</span><span className="hidden sm:inline">Ücretsiz başla</span></button>
           <button onClick={() => setOpen(!open)} aria-label="Menü" data-testid="landing-mobile-menu" className="grid h-9 w-9 place-items-center rounded-md border md:hidden">{open ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}</button>
         </div>
       </div>
@@ -78,10 +78,10 @@ export const Hero = ({ onSignup }) => (
   <section className="relative mx-auto grid max-w-[1240px] overflow-x-clip items-center gap-14 px-5 pb-24 pt-14 sm:px-8 lg:grid-cols-[1.05fr_1fr] lg:pt-20" data-testid="landing-hero">
     <div className="fade-up">
       <a href="#seffaflik" className="inline-flex items-center gap-2 rounded-full border bg-card px-3 py-1 text-[12px] text-muted-foreground transition-colors hover:text-foreground"><Sparkles className="h-3.5 w-3.5 text-brand" />Türkiye'deki hekimler için tasarlandı<ArrowRight className="h-3 w-3" /></a>
-      <h1 className="mt-6 text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-5xl lg:text-6xl">Klinik sorudan<br />bilimsel kanıta,<br /><span className="text-brand">tek çalışma alanında.</span></h1>
+      <h1 className="mt-6 text-4xl font-semibold leading-[1.05] tracking-tight sm:text-5xl lg:text-6xl">Klinik sorudan<br />bilimsel kanıta,<br /><span className="text-brand">tek çalışma alanında.</span></h1>
       <p className="mt-6 max-w-xl text-base leading-relaxed text-muted-foreground md:text-lg">MedAssistix; anonim vaka araştırması, literatür keşfi ve ilaç bilgisini hekimin gün içindeki iş akışına uygun tek bir platformda birleştirir. Yapay zekâ yorumu ile doğrulanmış kanıt her zaman ayrı gösterilir.</p>
       <div className="mt-8 flex flex-wrap items-center gap-3">
-        <button onClick={onSignup} data-testid="hero-cta-primary" className="group inline-flex h-11 items-center gap-2 rounded-xl bg-navy px-5 text-sm font-semibold text-white transition-colors hover:bg-brand dark:bg-brand">Ücretsiz denemeye başla<ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" /></button>
+        <button onClick={onSignup} data-testid="hero-cta-primary" className="group inline-flex h-11 items-center gap-2 rounded-full bg-navy px-5 text-sm font-semibold text-white transition-colors hover:bg-brand dark:bg-brand">Ücretsiz denemeye başla<ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" /></button>
         <a href="#dene" data-testid="hero-cta-secondary" className="inline-flex h-11 items-center rounded-xl border px-5 text-sm font-medium transition-colors hover:bg-accent">Giriş yapmadan deneyin</a>
       </div>
       <div className="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-[12.5px] text-muted-foreground">

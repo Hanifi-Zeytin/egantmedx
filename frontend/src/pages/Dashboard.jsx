@@ -116,7 +116,7 @@ export default function Dashboard() {
     <div className="space-y-10" data-testid="dashboard-page">
       <div className="fade-up">
         <div className="eyebrow mb-2">{today}</div>
-        <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight">{greeting()}, {PHYSICIAN.name.split(" ").slice(0, 2).join(" ")}.</h1>
+        <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight">{greeting()}, {PHYSICIAN.name.split(" ").slice(0, 2).join(" ")}.</h1>
         <p className="mt-2 text-[15px] text-muted-foreground">{isNew ? "MedAssistix'e hoş geldiniz. İlk klinik araştırmanızla başlayın." : ongoing ? "Devam eden bir araştırmanız var — ya da yeni bir soruyla başlayın." : "Bugün nereden başlamak istersiniz?"}</p>
       </div>
 
@@ -139,7 +139,7 @@ export default function Dashboard() {
 
           {isNew ? (
             <EmptyState testId="dashboard-empty-state" icon={Inbox} title="Henüz klinik araştırmanız yok" text="Bir ana şikâyet ve temel bilgilerle anonim bir vaka oluşturun. Taslak olarak kaydedebilir ya da hemen araştırmaya başlayabilirsiniz."
-              action={<Link to="/arastirma" className="inline-flex h-9 items-center gap-2 rounded-lg bg-navy px-4 text-sm font-medium text-white dark:bg-brand" data-testid="empty-new-research-button"><Microscope className="h-4 w-4" />İlk araştırmayı oluştur</Link>} />
+              action={<Link to="/arastirma" className="inline-flex h-9 items-center gap-2 rounded-full bg-navy px-4 text-sm font-medium text-white dark:bg-brand" data-testid="empty-new-research-button"><Microscope className="h-4 w-4" />İlk araştırmayı oluştur</Link>} />
           ) : (
             <div className="grid gap-4 md:grid-cols-2">
               <Panel className="p-2" data-testid="dashboard-recent-sessions">

@@ -40,7 +40,7 @@ export const OrgContact = () => {
       <div className="mx-auto grid max-w-[1240px] gap-12 px-5 py-24 sm:px-8 lg:grid-cols-[1fr_1.1fr]">
         <div>
           <div className="eyebrow mb-3 flex items-center gap-1.5"><Building2 className="h-3 w-3" />Kurumlar için</div>
-          <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl">Ekibiniz için erken erişim isteyin.</h2>
+          <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">Ekibiniz için erken erişim isteyin.</h2>
           <p className="mt-4 max-w-md text-muted-foreground md:text-lg">Aile sağlığı merkezleri, poliklinikler ve hastaneler için Klinik / Kurum paketi hazırlanıyor. Bilgilerinizi bırakın, kullanıma açıldığında sizinle iletişime geçelim.</p>
           <ul className="mt-8 space-y-3 text-[14px] text-foreground/80">
             {["Ekip çalışma alanları ve ortak vaka yönetimi", "Kurum yöneticisi paneli", "Hekim doğrulamalarının toplu takibi"].map((t) => <li key={t} className="flex gap-2.5"><span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-brand" />{t}</li>)}

@@ -110,7 +110,7 @@ export default function Signup() {
       <aside className="hidden flex-col justify-between bg-navy p-10 text-white lg:flex">
         <div className="[&_*]:!text-white"><Logo /></div>
         <div>
-          <h1 className="text-3xl font-extrabold leading-tight tracking-tight">Hekim hesabınızı<br />oluşturun.</h1>
+          <h1 className="text-3xl font-semibold leading-tight tracking-tight">Hekim hesabınızı<br />oluşturun.</h1>
           <p className="mt-3 text-[14px] leading-relaxed text-white/65">Doğrulama sonrasında 5 ücretsiz klinik sorgu tanımlanır.</p>
           <div className="mt-10"><StepRail step={step} /></div>
         </div>
@@ -155,7 +155,7 @@ export default function Signup() {
           </div>
           <div className="mt-10 flex items-center justify-between">
             {step > 0 ? <button onClick={() => { setErr({}); setStep(step - 1); }} data-testid="signup-prev" className="inline-flex h-10 items-center gap-1.5 rounded-lg px-3 text-sm font-medium text-muted-foreground hover:text-foreground"><ArrowLeft className="h-4 w-4" />Geri</button> : <span />}
-            <button onClick={next} data-testid="signup-next" className="inline-flex h-11 items-center gap-2 rounded-xl bg-navy px-6 text-sm font-semibold text-white transition-colors hover:bg-brand dark:bg-brand">{step === 3 ? "Başvuruyu gönder" : "Devam"}<ArrowRight className="h-4 w-4" /></button>
+            <button onClick={next} data-testid="signup-next" className="inline-flex h-11 items-center gap-2 rounded-full bg-navy px-6 text-sm font-semibold text-white transition-colors hover:bg-brand dark:bg-brand">{step === 3 ? "Başvuruyu gönder" : "Devam"}<ArrowRight className="h-4 w-4" /></button>
           </div>
         </div>
       </main>

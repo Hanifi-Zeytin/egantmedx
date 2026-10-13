@@ -24,7 +24,7 @@ export const Logo = ({ collapsed }) => (
       <svg viewBox="0 0 24 24" className="h-4 w-4"><path d="M10 4h4v6h6v4h-6v6h-4v-6H4v-4h6z" fill="none" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" /></svg>
       <span className="absolute -right-0.5 -top-0.5 h-2 w-2 rounded-full bg-teal-400 ring-2 ring-surface" />
     </div>
-    {!collapsed && <div className="font-display text-[15px] font-extrabold tracking-tight">MedAssist<span className="text-brand">ix</span></div>}
+    {!collapsed && <div className="font-display text-[15px] font-semibold tracking-tight">MedAssist<span className="text-brand">ix</span></div>}
   </div>
 );
 

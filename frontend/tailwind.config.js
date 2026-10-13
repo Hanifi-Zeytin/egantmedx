@@ -14,7 +14,7 @@ module.exports = {
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)'
       },
-      fontFamily: { display: ['Manrope','sans-serif'], sans: ['IBM Plex Sans','sans-serif'], mono: ['JetBrains Mono','monospace'] },
+      fontFamily: { display: ['Fraunces','Georgia','serif'], sans: ['Nunito Sans','sans-serif'], mono: ['Nunito Sans','sans-serif'] },
       colors: {
         brand: { DEFAULT: 'hsl(var(--brand))', soft: 'hsl(var(--brand-soft))', fg: 'hsl(var(--brand-fg))' },
         navy: 'hsl(var(--navy))',

@@ -41,7 +41,7 @@ export const Topbar = ({ onMenu, onSearch }) => {
       <button onClick={onSearch} data-testid="topbar-search-button" aria-label="Hızlı arama" className="flex h-9 items-center gap-2 rounded-lg border bg-card px-3 text-[13px] text-muted-foreground transition-colors hover:border-foreground/20 hover:text-foreground">
         <Search className="h-4 w-4" /><span className="hidden lg:inline">Hızlı ara…</span><kbd className="hidden rounded border bg-surface px-1.5 font-mono text-[10px] lg:inline">Ctrl K</kbd>
       </button>
-      <span data-testid="prototype-pill" title="Bu uygulama bir prototiptir; tüm veriler örnektir ve yapay zekâ yanıtları simüle edilmiştir." className="hidden items-center gap-1.5 rounded-full border border-dashed px-2.5 py-1 font-mono text-[10.5px] tracking-wide text-muted-foreground xl:inline-flex"><FlaskConical className="h-3 w-3" />PROTOTİP · DEMO VERİ</span>
+      <span data-testid="prototype-pill" title="Bu uygulama bir prototiptir; tüm veriler örnektir ve yapay zekâ yanıtları simüle edilmiştir." className="hidden items-center gap-1.5 rounded-full border border-dashed px-2.5 py-1 font-mono text-[10.5px] text-muted-foreground xl:inline-flex"><FlaskConical className="h-3 w-3" />PROTOTİP · DEMO VERİ</span>
       {state.workspace !== "admin" && <Link to="/profil" className="hidden sm:block"><VerificationPill status={state.verification} /></Link>}
       <button data-testid="topbar-theme-toggle" onClick={toggleTheme} aria-label="Temayı değiştir" className="grid h-9 w-9 place-items-center rounded-md text-muted-foreground hover:bg-accent hover:text-foreground lg:hidden">{state.theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}</button>
     </header>

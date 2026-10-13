@@ -52,7 +52,7 @@ export default function History() {
   return (
     <div className="space-y-10" data-testid="history-page">
       <PageHeader eyebrow="Arşiv ve oturumlar" title="Geçmiş" description="Önceki araştırmalarınıza dönün, taslakları tamamlayın veya vakaları arşivleyin."
-        actions={<Link to="/arastirma" data-testid="history-new-button" className="inline-flex h-9 items-center gap-2 rounded-lg bg-navy px-4 text-sm font-medium text-white dark:bg-brand"><Plus className="h-4 w-4" />Yeni araştırma</Link>} />
+        actions={<Link to="/arastirma" data-testid="history-new-button" className="inline-flex h-9 items-center gap-2 rounded-full bg-navy px-4 text-sm font-medium text-white dark:bg-brand"><Plus className="h-4 w-4" />Yeni araştırma</Link>} />
       <div className="flex flex-col gap-3 md:flex-row md:items-center">
         <div className="relative md:w-80">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />

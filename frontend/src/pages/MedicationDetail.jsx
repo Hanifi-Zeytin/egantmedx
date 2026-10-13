@@ -29,7 +29,7 @@ export default function MedicationDetail() {
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center fade-up">
         <div className="grid h-14 w-14 place-items-center rounded-2xl bg-brand-soft text-brand-fg"><Pill className="h-6 w-6" /></div>
         <div className="flex-1">
-          <div className="flex flex-wrap items-center gap-2"><h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight" data-testid="med-detail-name">{p.name}</h1><span className="font-mono text-lg text-muted-foreground">{p.strength}</span><SampleBadge>ÖRNEK ÜRÜN</SampleBadge></div>
+          <div className="flex flex-wrap items-center gap-2"><h1 className="text-2xl sm:text-3xl font-semibold tracking-tight" data-testid="med-detail-name">{p.name}</h1><span className="font-mono text-lg text-muted-foreground">{p.strength}</span><SampleBadge>ÖRNEK ÜRÜN</SampleBadge></div>
           <p className="mt-1 text-sm text-muted-foreground">{p.ingredient} · {p.form}</p>
         </div>
         <Link to={`/ilaclar/guvenlik?ilac=${p.id}`} data-testid="med-detail-safety-button" className="inline-flex h-9 items-center gap-2 rounded-lg border border-indigo-300 bg-indigo-50 px-3.5 text-sm font-medium text-indigo-800 hover:bg-indigo-100 dark:border-indigo-800 dark:bg-indigo-950/50 dark:text-indigo-200"><ShieldAlert className="h-4 w-4" />Güvenlik kontrolüne ekle</Link>

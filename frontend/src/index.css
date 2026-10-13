@@ -4,39 +4,39 @@
 
 @layer base {
     :root {
-        --background: 210 40% 98%;
-        --foreground: 222 47% 11%;
-        --surface: 210 40% 96%;
+        --background: 40 30% 98%;
+        --foreground: 212 28% 20%;
+        --surface: 38 28% 95.5%;
         --card: 0 0% 100%;
-        --card-foreground: 222 47% 11%;
+        --card-foreground: 212 28% 20%;
         --popover: 0 0% 100%;
-        --popover-foreground: 222 47% 11%;
-        --primary: 214 60% 11%;
+        --popover-foreground: 212 28% 20%;
+        --primary: 210 38% 26%;
         --primary-foreground: 210 40% 98%;
-        --secondary: 210 40% 96%;
-        --secondary-foreground: 222 47% 11%;
-        --muted: 210 40% 96%;
-        --muted-foreground: 215 19% 35%;
-        --accent: 210 40% 94%;
-        --accent-foreground: 222 47% 11%;
+        --secondary: 38 28% 95%;
+        --secondary-foreground: 212 28% 20%;
+        --muted: 38 28% 95%;
+        --muted-foreground: 212 14% 42%;
+        --accent: 165 30% 94%;
+        --accent-foreground: 212 28% 20%;
         --destructive: 347 77% 50%;
         --destructive-foreground: 0 0% 100%;
-        --border: 216 28% 92%;
-        --input: 216 26% 88%;
-        --ring: 175 84% 32%;
-        --brand: 175 84% 32%;
-        --brand-soft: 167 85% 94%;
-        --brand-fg: 175 84% 24%;
-        --navy: 214 60% 11%;
-        --radius: 0.625rem;
+        --border: 35 18% 89%;
+        --input: 35 16% 85%;
+        --ring: 170 42% 40%;
+        --brand: 170 42% 38%;
+        --brand-soft: 160 38% 93%;
+        --brand-fg: 170 45% 26%;
+        --navy: 210 38% 26%;
+        --radius: 0.875rem;
     }
     .dark {
-        --background: 216 48% 5%;
+        --background: 212 26% 9%;
         --foreground: 210 40% 98%;
-        --surface: 222 47% 9%;
-        --card: 222 47% 11%;
+        --surface: 212 22% 12%;
+        --card: 212 22% 14%;
         --card-foreground: 210 40% 98%;
-        --popover: 222 47% 11%;
+        --popover: 212 22% 14%;
         --popover-foreground: 210 40% 98%;
         --primary: 210 40% 96%;
         --primary-foreground: 222 47% 11%;
@@ -48,13 +48,13 @@
         --accent-foreground: 210 40% 98%;
         --destructive: 350 89% 60%;
         --destructive-foreground: 0 0% 100%;
-        --border: 217 33% 17%;
-        --input: 217 33% 22%;
-        --ring: 173 80% 40%;
-        --brand: 173 80% 40%;
-        --brand-soft: 176 69% 13%;
-        --brand-fg: 171 77% 64%;
-        --navy: 214 60% 11%;
+        --border: 212 16% 21%;
+        --input: 212 16% 25%;
+        --ring: 165 38% 52%;
+        --brand: 165 38% 48%;
+        --brand-soft: 168 28% 17%;
+        --brand-fg: 160 45% 72%;
+        --navy: 210 32% 30%;
     }
 }
 
@@ -65,24 +65,27 @@
         @apply bg-background text-foreground font-sans antialiased;
         font-feature-settings: "ss01", "cv11";
     }
-    h1, h2, h3, h4 { @apply font-display; }
+    h1, h2, h3, h4 { @apply font-display; font-weight: 600 !important; letter-spacing: -0.01em !important; font-optical-sizing: auto; }
+    .font-mono { font-variant-numeric: tabular-nums; }
+    *, *::before, *::after { transition-timing-function: cubic-bezier(.22,.61,.36,1); }
+    a, button, input, textarea, [role="tab"], [role="option"], [role="menuitem"] { transition-property: color, background-color, border-color, box-shadow, opacity, transform; transition-duration: 280ms; }
+    body, aside, header, main, section, article { transition: background-color 400ms ease, color 400ms ease, border-color 400ms ease; }
     ::selection { background: hsl(var(--brand) / 0.22); }
     :focus-visible { outline: 2px solid hsl(var(--ring)); outline-offset: 2px; }
 }
 
 @layer utilities {
-    .eyebrow { @apply font-mono text-[10.5px] uppercase tracking-[0.14em] text-muted-foreground; }
+    .eyebrow { @apply font-sans text-[12.5px] font-semibold tracking-[0.01em] text-brand-fg; }
     .scrollbar-thin::-webkit-scrollbar { width: 8px; height: 8px; }
     .scrollbar-thin::-webkit-scrollbar-thumb { background: hsl(var(--border)); border-radius: 8px; }
-    .fade-up { animation: fadeUp .45s cubic-bezier(.2,.7,.2,1) both; }
+    .fade-up { animation: fadeUp .7s cubic-bezier(.22,.61,.36,1) both; }
     .dot-pulse { animation: dotPulse 1.4s ease-in-out infinite; }
     .grid-bg {
-        background-image: linear-gradient(hsl(var(--border) / .55) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--border) / .55) 1px, transparent 1px);
-        background-size: 28px 28px;
+        background-image: radial-gradient(60% 60% at 80% 20%, hsl(var(--brand) / .10), transparent 70%), radial-gradient(50% 50% at 15% 85%, hsl(205 60% 70% / .10), transparent 70%);
     }
 }
 
-@keyframes fadeUp { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
 @keyframes dotPulse { 0%,100% { opacity: .35; } 50% { opacity: 1; } }
 
 [data-debug-wrapper="true"] { display: contents !important; }

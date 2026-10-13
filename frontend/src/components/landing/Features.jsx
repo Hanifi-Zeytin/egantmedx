@@ -46,7 +46,7 @@ const PILLARS = [
 
 export const Pillars = () => (
   <section id="ozellikler" className="mx-auto max-w-[1240px] scroll-mt-20 px-5 py-24 sm:px-8" data-testid="landing-features">
-    <div className="max-w-2xl"><div className="eyebrow mb-3">Platform</div><h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl">Hekimin günlük araştırma ihtiyacı için dört temel modül.</h2><p className="mt-4 text-base text-muted-foreground md:text-lg">Sohbet penceresinden fazlası: vakalar, kanıtlar ve ilaç bilgisi birbirine bağlı tek bir çalışma alanında.</p></div>
+    <div className="max-w-2xl"><div className="eyebrow mb-3">Platform</div><h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">Hekimin günlük araştırma ihtiyacı için dört temel modül.</h2><p className="mt-4 text-base text-muted-foreground md:text-lg">Sohbet penceresinden fazlası: vakalar, kanıtlar ve ilaç bilgisi birbirine bağlı tek bir çalışma alanında.</p></div>
     <div className="mt-12 grid gap-4 lg:grid-cols-12">
       {PILLARS.map((p) => (
         <article key={p.title} className={`group rounded-2xl border bg-card p-6 transition-[border-color,transform] hover:-translate-y-0.5 hover:border-foreground/20 ${p.span}`} data-testid={`feature-${p.eyebrow.slice(0, 2)}`}>
@@ -81,7 +81,7 @@ export const HowItWorks = () => (
   <section id="nasil" className="scroll-mt-20 border-y bg-surface/50" data-testid="landing-how">
     <div className="mx-auto max-w-[1240px] px-5 py-24 sm:px-8">
       <div className="grid gap-10 lg:grid-cols-[360px_1fr]">
-        <div><div className="eyebrow mb-3">Nasıl çalışır</div><h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl">Birkaç saniyede başlayın.</h2><p className="mt-4 text-muted-foreground">Yoğun bir poliklinik gününde bile ilk sorudan kanıta en az tıklamayla ulaşacak şekilde tasarlandı.</p></div>
+        <div><div className="eyebrow mb-3">Nasıl çalışır</div><h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">Birkaç saniyede başlayın.</h2><p className="mt-4 text-muted-foreground">Yoğun bir poliklinik gününde bile ilk sorudan kanıta en az tıklamayla ulaşacak şekilde tasarlandı.</p></div>
         <ol className="grid gap-px overflow-hidden rounded-2xl border bg-border sm:grid-cols-2">
           {STEPS.map((s, i) => (
             <li key={s.title} className="bg-card p-6" data-testid={`how-step-${i + 1}`}>
